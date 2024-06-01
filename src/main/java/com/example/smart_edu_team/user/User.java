@@ -1,13 +1,13 @@
 package com.example.smart_edu_team.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
-@Setter
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     private String id;
@@ -15,6 +15,4 @@ public class User {
     private String name;
     private String email;
     private String password;
-
-    // Getters and Setters
 }
