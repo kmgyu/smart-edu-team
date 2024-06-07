@@ -4,6 +4,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface PostRepository extends MongoRepository<Post, String> {
     /**
@@ -12,5 +14,5 @@ public interface PostRepository extends MongoRepository<Post, String> {
      * @return
      */
     @Query("{_id : ?0}")
-    public Post findByPostId(String id);
+    public Optional<Post> findByPostId(String id);
 }

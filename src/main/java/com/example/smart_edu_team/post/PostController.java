@@ -27,9 +27,9 @@ public class PostController {
 
     @GetMapping("/{id}")
     public String getPostById(@PathVariable String id, Model model) {
-        Post post = postService.getPostById(id);
-        if (post != null) {
-            model.addAttribute("post", post);
+        Optional<Post> post = postService.getPostById(id);
+        if (post.isPresent()) {
+            model.addAttribute("post", post.get());
             return "post/details";
         }
         return "post/not_found";
@@ -52,9 +52,9 @@ public class PostController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable String id, Model model) {
-        Post post = postService.getPostById(id);
-        if (post != null) {
-            model.addAttribute("post", post);
+        Optional<Post> post = postService.getPostById(id);
+        if (post.isPresent()) {
+            model.addAttribute("post", post.get());
             return "post/edit";
         }
         return "post/not_found";
