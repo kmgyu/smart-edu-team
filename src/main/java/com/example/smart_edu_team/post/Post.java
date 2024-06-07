@@ -12,13 +12,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
-    /**
-     * Mongo DB는 object id를 사용하기 때문에 중복성이 '아예' 없습니다.
-     * UUID는 추천하지 않지만 자바니까... 일단 사용했습니다.
-     */
     @Id
-    @Builder.Default
-    private String id = UUID.randomUUID().toString();
+    private String id;
     private String title;
     private String content;
     private String author;

@@ -2,7 +2,10 @@ package com.example.smart_edu_team.user;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/users")
@@ -22,9 +25,9 @@ public class UserController {
 
     @GetMapping("/{username}")
     public String getUserByUsername(@PathVariable String username, Model model) {
-        User user = userService.findByUsername(username);
-        if (user != null) {
-            model.addAttribute("user", user);
+        Optional<User> user = userService.findByUsername(username);
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
             return "user/details";
         }
         return "user/not_found";
@@ -37,7 +40,11 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute User user) {
+    public String signup(@ModelAttribute User user, BindingResult bindingResult) {
+        if (userService.findByUsername(user.getUsername()).isPresent()) {
+            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+            return "user/signup";
+        }
         userService.createUser(user);
         return "redirect:/users";
     }
@@ -48,21 +55,21 @@ public class UserController {
         return "user/login";
     }
 
-    @PostMapping("/login")
-    public String login(@ModelAttribute User user, Model model) {
-        User foundUser = userService.findByUsername(user.getUsername());
-        if (foundUser != null && foundUser.getPassword().equals(user.getPassword())) {
-            return "redirect:/users";
-        }
-        model.addAttribute("error", "Invalid username or password");
-        return "user/login";
-    }
+//    @PostMapping("/login")
+//    public String login(@ModelAttribute User user, Model model) {
+//        Optional<User> foundUser = userService.findByUsername(user.getUsername());
+//        if (foundUser.isPresent() && foundUser.get().getPassword().equals(user.getPassword())) {
+//            return "redirect:/users";
+//        }
+//        model.addAttribute("error", "Invalid username or password");
+//        return "user/login";
+//    }
 
     @GetMapping("/edit/{username}")
     public String showEditForm(@PathVariable String username, Model model) {
-        User user = userService.findByUsername(username);
-        if (user != null) {
-            model.addAttribute("user", user);
+        Optional<User> user = userService.findByUsername(username);
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
             return "user/edit";
         }
         return "user/not_found";

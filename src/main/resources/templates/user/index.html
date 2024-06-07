@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>User List</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container mt-5">
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container">
     <h1 class="mb-4">Users</h1>
     <a href="/users/signup" class="btn btn-success mb-3">Sign Up</a>
     <table class="table table-striped">
@@ -21,9 +15,9 @@
             <td th:text="${user.id}">1</td>
             <td th:text="${user.username}">Username</td>
             <td>
-                <a th:href="@{/users/{id}(id=${user.id})}" class="btn btn-info btn-sm">View</a>
-                <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-warning btn-sm">Edit</a>
-                <form th:action="@{/users/delete/{id}(id=${user.id})}" method="post" style="display:inline;">
+                <a th:href="@{/users/{username}(username=${user.username})}" class="btn btn-info btn-sm">View</a>
+                <a th:href="@{/users/edit/{username}(username=${user.username})}" class="btn btn-warning btn-sm">Edit</a>
+                <form th:action="@{/users/delete/{username}(username=${user.username})}" method="post" style="display:inline;">
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
             </td>
@@ -31,5 +25,4 @@
         </tbody>
     </table>
 </div>
-</body>
 </html>

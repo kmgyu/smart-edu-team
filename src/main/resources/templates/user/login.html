@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container">
+<div layout:decorate="~{layout}">
+<div layout:fragment="content" class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card mt-5">
@@ -14,8 +8,9 @@
                 </div>
                 <div class="card-body">
                     <form th:action="@{/users/login}" th:object="${user}" method="post">
+                        <div th:replace="~{layouts/form_errors :: formErrorsFragment}"></div>
                         <div class="form-group">
-                            <label for="username">Username</label>
+                            <label for="username">ID</label>
                             <input type="text" id="username" th:field="*{username}" class="form-control"/>
                         </div>
                         <div class="form-group">
@@ -32,5 +27,5 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+</div>
+
