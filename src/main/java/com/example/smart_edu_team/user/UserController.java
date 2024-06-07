@@ -20,9 +20,9 @@ public class UserController {
         return "user/index";
     }
 
-    @GetMapping("/{id}")
-    public String getUserById(@PathVariable String id, Model model) {
-        User user = userService.getUserById(id);
+    @GetMapping("/{username}")
+    public String getUserByUsername(@PathVariable String username, Model model) {
+        User user = userService.findByUsername(username);
         if (user != null) {
             model.addAttribute("user", user);
             return "user/details";
@@ -50,7 +50,7 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@ModelAttribute User user, Model model) {
-        User foundUser = userService.getUserById(user.getId());
+        User foundUser = userService.findByUsername(user.getUsername());
         if (foundUser != null && foundUser.getPassword().equals(user.getPassword())) {
             return "redirect:/users";
         }
@@ -58,9 +58,9 @@ public class UserController {
         return "user/login";
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable String id, Model model) {
-        User user = userService.getUserById(id);
+    @GetMapping("/edit/{username}")
+    public String showEditForm(@PathVariable String username, Model model) {
+        User user = userService.findByUsername(username);
         if (user != null) {
             model.addAttribute("user", user);
             return "user/edit";
