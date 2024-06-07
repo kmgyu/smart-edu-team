@@ -1,18 +1,23 @@
 package com.example.smart_edu_team.post;
 
+import com.example.smart_edu_team.user.User;
+import com.example.smart_edu_team.user.UserRepository;
+import com.example.smart_edu_team.user.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.Optional;
+
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/posts")
 public class PostController {
 
     private final PostService postService;
-
-    public PostController(PostService postService) {
-        this.postService = postService;
-    }
+    private final UserService userService;
 
     @GetMapping("/index")
     public String getAllPosts(Model model) {
@@ -37,8 +42,11 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public String createPost(@ModelAttribute Post post) {
-        postService.createPost(post);
+    public String createPost(@ModelAttribute Post post, Principal principal) {
+        Optional<User> user = userService.findByUsername(principal.getName());
+        if (user.isPresent()) {
+            postService.createPost(post, user.get().getUsername());
+        }
         return "redirect:/posts/index";
     }
 

@@ -1,5 +1,6 @@
 package com.example.smart_edu_team.post;
 
+import com.example.smart_edu_team.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     public List<Post> getAllPosts() {
         return postRepository.findAll();
@@ -21,7 +23,8 @@ public class PostService {
         return postRepository.findByPostId(id);
     }
 
-    public Post createPost(Post post) {
+    public Post createPost(Post post, String author) {
+        post.setAuthor(author);
         postRepository.save(post);
         return post;
     }
