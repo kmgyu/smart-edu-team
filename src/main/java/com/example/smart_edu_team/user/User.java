@@ -1,16 +1,19 @@
 package com.example.smart_edu_team.user;
 
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "users")
-@Data
+@Getter
+@Setter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "user_table")
 public class User {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
     private String username;
     private String name;
     private String email;
