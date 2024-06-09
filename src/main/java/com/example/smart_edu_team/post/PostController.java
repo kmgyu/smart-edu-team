@@ -1,12 +1,13 @@
 package com.example.smart_edu_team.post;
 
 import com.example.smart_edu_team.user.User;
-import com.example.smart_edu_team.user.UserRepository;
 import com.example.smart_edu_team.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -51,13 +52,16 @@ public class PostController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable String id, Model model) {
+    public String showEditForm(@PathVariable String id, Model model, Principal principal) {
         Optional<Post> post = postService.getPostById(id);
-        if (post.isPresent()) {
-            model.addAttribute("post", post.get());
-            return "post/edit";
+        if (post.isEmpty()) {
+            return "post/not_found";
         }
-        return "post/not_found";
+        if(!post.get().getAuthor().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        model.addAttribute("post", post.get());
+        return "post/edit";
     }
 
     @PostMapping("/edit/{id}")
