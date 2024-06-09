@@ -24,7 +24,15 @@
                    th:if="${post.author != null and #authentication.getPrincipal().getUsername() == post.author}"
                    th:text="Edit"></a>
 
-                <form th:action="@{/posts/delete/{id}(id=${post.id})}" method="post" style="display:inline;">
+<!--                <a th:href="@{/posts/delete/{id}(id=${post.id})}" class="btn btn-danger btn-sm"-->
+<!--                   sec:authorize="isAuthenticated()"-->
+<!--                   th:if="${post.author != null and #authentication.getPrincipal().getUsername() == post.author}"-->
+<!--                   th:text="Delete"></a>-->
+
+                <form th:action="@{/posts/delete/{id}(id=${post.id})}" method="post"
+                      sec:authorize="isAuthenticated()"
+                      th:if="${post.author != null and #authentication.getPrincipal().getUsername() == post.author}"
+                      style="display:inline;">
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
             </td>
