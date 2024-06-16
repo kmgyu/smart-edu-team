@@ -20,6 +20,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/**").permitAll()
+                        .requestMatchers("/admins/**").hasAuthority(UserRole.ADMIN.getValue())
                 )
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/users/login")
