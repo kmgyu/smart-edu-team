@@ -1,9 +1,12 @@
 package com.example.smart_edu_team.post;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Document("Post")
@@ -12,14 +15,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
-    /**
-     * Mongo DB는 object id를 사용하기 때문에 중복성이 '아예' 없습니다.
-     * UUID는 추천하지 않지만 자바니까... 일단 사용했습니다.
-     */
     @Id
-    @Builder.Default
-    private String id = UUID.randomUUID().toString();
+    private String id;
+    @NotEmpty(message = "필수항목입니다.")
     private String title;
+    @NotEmpty(message = "필수항목입니다.")
     private String content;
+    @NotEmpty(message = "필수항목입니다.")
     private String author;
+    @NotEmpty(message = "시간을 알 수 없습니다.")
+    private LocalDateTime posted_time;
+    @NotEmpty(message = "시간을 알 수 없습니다.")
+    private LocalDateTime edited_time;
 }

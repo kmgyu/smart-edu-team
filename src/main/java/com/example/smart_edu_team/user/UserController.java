@@ -1,18 +1,19 @@
 package com.example.smart_edu_team.user;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping
     public String getAllUsers(Model model) {
@@ -20,11 +21,11 @@ public class UserController {
         return "user/index";
     }
 
-    @GetMapping("/{id}")
-    public String getUserById(@PathVariable String id, Model model) {
-        User user = userService.getUserById(id);
-        if (user != null) {
-            model.addAttribute("user", user);
+    @GetMapping("/{username}")
+    public String getUserByUsername(@PathVariable String username, Model model) {
+        Optional<User> user = userService.findByUsername(username);
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
             return "user/details";
         }
         return "user/not_found";
@@ -37,7 +38,11 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute User user) {
+    public String signup(@ModelAttribute User user, BindingResult bindingResult) {
+        if (userService.findByUsername(user.getUsername()).isPresent()) {
+            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+            return "user/signup";
+        }
         userService.createUser(user);
         return "redirect:/users";
     }
@@ -48,21 +53,21 @@ public class UserController {
         return "user/login";
     }
 
-    @PostMapping("/login")
-    public String login(@ModelAttribute User user, Model model) {
-        User foundUser = userService.getUserById(user.getId());
-        if (foundUser != null && foundUser.getPassword().equals(user.getPassword())) {
-            return "redirect:/users";
-        }
-        model.addAttribute("error", "Invalid username or password");
-        return "user/login";
-    }
+//    @PostMapping("/login")
+//    public String login(@ModelAttribute User user, Model model) {
+//        Optional<User> foundUser = userService.findByUsername(user.getUsername());
+//        if (foundUser.isPresent() && foundUser.get().getPassword().equals(user.getPassword())) {
+//            return "redirect:/users";
+//        }
+//        model.addAttribute("error", "Invalid username or password");
+//        return "user/login";
+//    }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable String id, Model model) {
-        User user = userService.getUserById(id);
-        if (user != null) {
-            model.addAttribute("user", user);
+    @GetMapping("/edit/{username}")
+    public String showEditForm(@PathVariable String username, Model model) {
+        Optional<User> user = userService.findByUsername(username);
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
             return "user/edit";
         }
         return "user/not_found";
