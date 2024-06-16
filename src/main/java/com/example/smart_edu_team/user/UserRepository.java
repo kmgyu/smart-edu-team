@@ -1,14 +1,14 @@
 package com.example.smart_edu_team.user;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends MongoRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, String> {
 
-    @Query("{username : ?0}")
+    @Query("select u from User u where u.username = :name")
     Optional<User> findByUsername(String username);
 }

@@ -1,18 +1,20 @@
 package com.example.smart_edu_team.post;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface PostRepository extends MongoRepository<Post, String> {
+public interface PostRepository extends JpaRepository<Post, String> {
     /**
-     * mongoDB regex. 9차시에서 자세하게 나옵니다!
+     * parameter id binding to query, id.
+     * Optional에 wrapping된 Post를 반환합니다. isPresent() 사용을 통해 존재 여부 확인이 용이합니다.
      * @param id
-     * @return
+     * @return post
      */
-    @Query("{_id : ?0}")
-    public Optional<Post> findByPostId(String id);
+    @Query("select p from Post p where p.id = :id")
+    public Optional<Post> findByPostId(@Param("id") String id);
 }

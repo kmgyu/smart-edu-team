@@ -1,21 +1,22 @@
 package com.example.smart_edu_team.user;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "users")
 @Data
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    // in this case, no annotation needed. it's auto-generated.
-    // jpa 리포지토리와 달리 generatedValue 같은 어노테이션이 필요하지 않다. ㅇㅋ?
+    // jakarta persistance와 data annotation의 id 어노테이션이 다른것에 주의
     @Id
-    private ObjectId id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @NotEmpty(message = "필수항목입니다.")
     private String username;
     @NotEmpty(message = "필수항목입니다.")

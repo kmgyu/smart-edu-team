@@ -1,22 +1,23 @@
 package com.example.smart_edu_team.post;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-@Document("Post")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Post {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @NotEmpty(message = "필수항목입니다.")
     private String title;
     @NotEmpty(message = "필수항목입니다.")
