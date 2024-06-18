@@ -19,15 +19,14 @@
             <td>
                 <a th:href="@{/posts/{id}(id=${post.id})}" class="btn btn-info btn-sm">View</a>
 
-                <a th:href="@{|/posts/edit/${post.id}|}" class="btn btn-sm btn-outline-secondary"
-                   sec:authorize="isAuthenticated()"
-                   th:if="${post.author != null and #authentication.getPrincipal().getUsername() == post.author}"
-                   th:text="Edit"></a>
-
-<!--                <a th:href="@{/posts/delete/{id}(id=${post.id})}" class="btn btn-danger btn-sm"-->
+<!--                <a th:href="@{|/posts/edit/${post.id}|}" class="btn btn-sm btn-outline-secondary"-->
 <!--                   sec:authorize="isAuthenticated()"-->
 <!--                   th:if="${post.author != null and #authentication.getPrincipal().getUsername() == post.author}"-->
-<!--                   th:text="Delete"></a>-->
+<!--                   th:text="Edit"></a>-->
+                <a th:href="@{|/posts/edit/${post.id}|}" class="btn btn-sm btn-outline-secondary"
+                   sec:authorize="isAuthenticated() and (hasRole('ADMIN') or (#authentication.getPrincipal().getUsername() == post.author))"
+                   th:text="Edit"></a>
+
 
                 <form th:action="@{/posts/delete/{id}(id=${post.id})}" method="post"
                       sec:authorize="isAuthenticated()"
