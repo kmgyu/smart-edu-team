@@ -12,7 +12,7 @@ public interface UserController {
     /**
      * 회원가입에 대한 Get 요청 메소드
      * @param model
-     * @return
+     * @return 회원가입 템플릿 파일 이름을 리턴합니다.
      */
     @GetMapping("/signup")
     public String showSignupForm(Model model);
@@ -21,7 +21,7 @@ public interface UserController {
      * 회원가입에 대한 Post 요청 메소드
      * @param user
      * @param bindingResult
-     * @return
+     * @return 회원가입 템플릿 파일 이름을 리턴합니다.
      */
     @PostMapping("/signup")
     public String signup(@ModelAttribute User user, BindingResult bindingResult);
@@ -30,7 +30,7 @@ public interface UserController {
      * 로그인에 대한 get 요청 메소드
      * login의 경우 security가 확인하므로 post가 필요하지 않다.
      * @param model
-     * @return
+     * @return 로그인 템플릿 파일 이름을 리턴합니다.
      */
     @GetMapping("/login")
     public String showLoginForm(Model model);
@@ -39,7 +39,7 @@ public interface UserController {
      * username(아이디)에 대해 검색 시 가져온다.
      * @param username
      * @param model
-     * @return
+     * @return 유저 정보 템플릿을 리턴합니다. 만약 유저가 없을 시, 유저 notfound 템플릿을 리턴합니다.
      */
     @GetMapping("/{username}")
     public String getUserByUsername(@PathVariable String username, Model model);
@@ -48,25 +48,25 @@ public interface UserController {
      * 유저 수정 페이지를 가져오는 get 요청 메소드
      * @param username
      * @param model
-     * @return
+     * @return 유저 정보 수정 템플릿을 리턴합니다. 만약 유저가 없을 시, 유저 notfound 템플릿을 리턴합니다.
      */
     @GetMapping("/edit/{username}")
     public String showEditForm(@PathVariable String username, Model model);
 
     /**
      * 유저 수정 페이지 Post 요청 메소드
-     * @param id
+     * @param username
      * @param userDetails
      * @return
      */
-    @PostMapping("/edit/{id}")
-    public String updateUser(@PathVariable String id, @ModelAttribute User userDetails);
+    @PostMapping("/edit/{username}")
+    public String updateUser(@PathVariable String username, @ModelAttribute User userDetails);
 
     /**
      * 유저를 삭제하는 요청에 대한 메소드
-     * @param id
+     * @param username
      * @return
      */
-    @PostMapping("/delete/{id}")
-    public String deleteUser(@PathVariable String id);
+    @PostMapping("/delete/{username}")
+    public String deleteUser(@PathVariable String username);
 }

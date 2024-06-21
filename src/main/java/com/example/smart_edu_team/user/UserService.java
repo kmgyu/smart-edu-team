@@ -33,14 +33,13 @@ public class UserService {
             user.setName(userDetails.getName());
             user.setEmail(userDetails.getEmail());
             user.setPassword(userDetails.getPassword());
-            user.setId(userDetails.getId());
             user.setUsername(userDetails.getUsername());
             return userRepository.save(user);
         }
         return null;
     }
 
-    public void deleteUser(String id) {
-        userRepository.deleteById(id);
+    public void deleteUser(String username) {
+        userRepository.deleteById(username);
     }
 }

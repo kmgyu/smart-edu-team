@@ -15,8 +15,6 @@ import lombok.*;
 public class User {
     // jakarta persistance와 data annotation의 id 어노테이션이 다른것에 주의
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @NotEmpty(message = "필수항목입니다.")
     private String username;
     @NotEmpty(message = "필수항목입니다.")

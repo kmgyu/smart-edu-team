@@ -54,10 +54,10 @@ public class CommonUserController implements UserController {
     }
 
     /**
-     * mypage 리턴해야됨.
+     *
      * @param username
      * @param model
-     * @return
+     * @return 유저 수정 템플릿을 리턴하나 mypage가 아닐 시, not_found를 리턴합니다..
      */
     @Override
     @GetMapping("/edit/{username}")
@@ -71,16 +71,16 @@ public class CommonUserController implements UserController {
     }
 
     @Override
-    @PostMapping("/edit/{id}")
-    public String updateUser(@PathVariable String id, @ModelAttribute User userDetails) {
-        userService.updateUser(id, userDetails);
+    @PostMapping("/edit/{username}")
+    public String updateUser(@PathVariable String username, @ModelAttribute User userDetails) {
+        userService.updateUser(username, userDetails);
         return "redirect:/users";
     }
 
     @Override
-    @PostMapping("/delete/{id}")
-    public String deleteUser(@PathVariable String id) {
-        userService.deleteUser(id);
+    @PostMapping("/delete/{username}")
+    public String deleteUser(@PathVariable String username) {
+        userService.deleteUser(username);
         return "redirect:/users";
     }
 }

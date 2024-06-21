@@ -7,7 +7,9 @@
                     <h3>Edit User</h3>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/users/edit/{id}(id=${user.id})}" th:object="${user}" method="post">
+                    <form
+                            th:if = "${#authentication.getPrincipal().getUsername() == user.getUsername() or #authentication.getAuthorities() == 'ROLE_ADMIN' }"
+                            th:action="@{/users/edit/{username}(username=${user.getUsername()})}" th:object="${user}" method="post">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" id="username" th:field="*{username}" class="form-control"/>

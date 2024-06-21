@@ -13,7 +13,7 @@ A simple bulletin board application to demonstrate basic web development concept
 ## Introduction
 This is a simple bulletin board application designed as a tutorial to help beginners understand the basics of web development. The application allows users to create, read, update, and delete (CRUD) posts. 
 The application runs on a Web Application Server (WAS) using Tomcat, with both the frontend and backend operating on the WAS.
-
+* this branch(mysql) using mysql as database.
 
 ## Features
 - Create new posts
@@ -24,13 +24,13 @@ The application runs on a Web Application Server (WAS) using Tomcat, with both t
 ## Technologies Used
 - **Frontend**: HTML, CSS, Thymeleaf
 - **Backend**: Java 17 SpringBoot
-- **Database**: MongoDB
+- **Database**: MySQL
 
 ## Installation
-0. Required application:
+0. Required:
   - Java 17
   - IntelliJ (This Project made by IntelliJ so may not work in other IDE)
-  - MongoDB Compass  
+  - MySQL Workbench
   
 1. Clone the repository:
     ```sh
