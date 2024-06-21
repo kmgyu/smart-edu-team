@@ -35,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("/users/login").permitAll()
                         .requestMatchers("/users/signup").permitAll()
                         .requestMatchers("/posts/index").permitAll()
+                        .requestMatchers("/posts/{id}")
                 )
 //                로그인 성공 시 루트 디렉토리로 이동
                 .formLogin((formLogin) -> formLogin

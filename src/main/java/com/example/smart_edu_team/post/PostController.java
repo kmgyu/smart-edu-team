@@ -26,7 +26,7 @@ public class PostController {
         return "post/index";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/detail/{id}")
     public String getPostById(@PathVariable String id, Model model) {
         Optional<Post> post = postService.getPostById(id);
         if (post.isPresent()) {
