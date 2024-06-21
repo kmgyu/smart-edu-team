@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * 사용자에 대한 컨트롤러입니다.
+ * 권한에 맞춰 url을 매핑시켜줄 수 있습니다.
+ */
 public interface UserController {
     /**
      * 회원가입에 대한 Get 요청 메소드

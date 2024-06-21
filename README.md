@@ -2,6 +2,8 @@
 
 A simple bulletin board application to demonstrate basic web development concepts.
 
+I could have written it in Korean, but we just wrote it in English. cuz it looks cool LOL
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
@@ -60,5 +62,6 @@ The application runs on a Web Application Server (WAS) using Tomcat, with both t
 2. Use the interface to create, view, edit, and delete posts.
 
 ## WorkSpace
-Check our workspace. We hope this will help you
-[notion workspace](https://radial-woodwind-25c.notion.site/4263a20cfe074c3dbc36fd003dd085a5?v=ec79e0e5846d4a13b012d5ddb6fd6a8c)
+Check our workspace. We hope this will help you.
+
+[the notion workspace!](https://radial-woodwind-25c.notion.site/4263a20cfe074c3dbc36fd003dd085a5?v=ec79e0e5846d4a13b012d5ddb6fd6a8c)
