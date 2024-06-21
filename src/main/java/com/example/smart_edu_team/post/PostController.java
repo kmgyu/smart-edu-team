@@ -1,6 +1,6 @@
 package com.example.smart_edu_team.post;
 
-import com.example.smart_edu_team.user.User;
+import com.example.smart_edu_team.user.UserEntity;
 import com.example.smart_edu_team.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,7 +44,7 @@ public class PostController {
 
     @PostMapping("/create")
     public String createPost(@ModelAttribute Post post, Principal principal) {
-        Optional<User> user = userService.findByUsername(principal.getName());
+        Optional<UserEntity> user = userService.findByUsername(principal.getName());
         if (user.isPresent()) {
             postService.createPost(post, user.get().getUsername());
         }

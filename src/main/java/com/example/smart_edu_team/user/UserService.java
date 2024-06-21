@@ -14,27 +14,27 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public List<User> getAllUsers() {
+    public List<UserEntity> getAllUsers() {
         return userRepository.findAll();
     }
 
-    public Optional<User> findByUsername(String username) {
+    public Optional<UserEntity> findByUsername(String username) {
         return userRepository.findById(username);
     }
 
-    public User createUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+    public UserEntity createUser(UserEntity userEntity) {
+        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+        return userRepository.save(userEntity);
     }
 
-    public User updateUser(String id, User userDetails) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user != null) {
-            user.setName(userDetails.getName());
-            user.setEmail(userDetails.getEmail());
-            user.setPassword(userDetails.getPassword());
-            user.setUsername(userDetails.getUsername());
-            return userRepository.save(user);
+    public UserEntity updateUser(String id, UserEntity userEntityDetails) {
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        if (userEntity != null) {
+            userEntity.setName(userEntityDetails.getName());
+            userEntity.setEmail(userEntityDetails.getEmail());
+            userEntity.setPassword(userEntityDetails.getPassword());
+            userEntity.setUsername(userEntityDetails.getUsername());
+            return userRepository.save(userEntity);
         }
         return null;
     }

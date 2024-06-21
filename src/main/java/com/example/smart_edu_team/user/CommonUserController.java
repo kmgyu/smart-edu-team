@@ -20,7 +20,7 @@ public class CommonUserController implements UserController {
     @Override
     @GetMapping("/{username}")
     public String getUserByUsername(@PathVariable String username, Model model) {
-        Optional<User> user = userService.findByUsername(username);
+        Optional<UserEntity> user = userService.findByUsername(username);
         if (user.isPresent()) {
             model.addAttribute("user", user.get());
             return "user/details";
@@ -31,25 +31,25 @@ public class CommonUserController implements UserController {
     @Override
     @GetMapping("/signup")
     public String showSignupForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserEntity());
         return "user/signup";
     }
 
     @Override
     @PostMapping("/signup")
-    public String signup(@ModelAttribute User user, BindingResult bindingResult) {
-        if (userService.findByUsername(user.getUsername()).isPresent()) {
+    public String signup(@ModelAttribute UserEntity userEntity, BindingResult bindingResult) {
+        if (userService.findByUsername(userEntity.getUsername()).isPresent()) {
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
             return "user/signup";
         }
-        userService.createUser(user);
+        userService.createUser(userEntity);
         return "redirect:/users";
     }
 
     @Override
     @GetMapping("/login")
     public String showLoginForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserEntity());
         return "user/login";
     }
 
@@ -62,7 +62,7 @@ public class CommonUserController implements UserController {
     @Override
     @GetMapping("/edit/{username}")
     public String showEditForm(@PathVariable String username, Model model) {
-        Optional<User> user = userService.findByUsername(username);
+        Optional<UserEntity> user = userService.findByUsername(username);
         if (user.isPresent()) {
             model.addAttribute("user", user.get());
             return "user/edit";
@@ -72,8 +72,8 @@ public class CommonUserController implements UserController {
 
     @Override
     @PostMapping("/edit/{username}")
-    public String updateUser(@PathVariable String username, @ModelAttribute User userDetails) {
-        userService.updateUser(username, userDetails);
+    public String updateUser(@PathVariable String username, @ModelAttribute UserEntity userEntityDetails) {
+        userService.updateUser(username, userEntityDetails);
         return "redirect:/users";
     }
 

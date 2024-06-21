@@ -21,11 +21,11 @@ public class UserSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findById(username);
+        Optional<UserEntity> user = userRepository.findById(username);
         if (user.isEmpty()) {
-            throw new UsernameNotFoundException("User Not Found");
+            throw new UsernameNotFoundException("UserEntity Not Found");
         }
-        User _user = user.get();
+        UserEntity _userEntity = user.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
         if ("admin".equals(username)) {
             authorities.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));
@@ -33,6 +33,6 @@ public class UserSecurityService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(UserRole.USER.getValue()));
         }
 
-        return new org.springframework.security.core.userdetails.User(_user.getUsername(), _user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(_userEntity.getUsername(), _userEntity.getPassword(), authorities);
     }
 }

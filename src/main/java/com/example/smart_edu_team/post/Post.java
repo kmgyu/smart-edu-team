@@ -22,7 +22,7 @@ public class Post {
     private String title;
     @NotEmpty(message = "필수항목입니다.")
     private String content;
-    @NotEmpty(message = "필수항목입니다.")
+//  Controller에서 로그인 정보를 가져옴. notempty일 시 템플릿에서 폼데이터를 파싱해 postDTO로 변환시키는 과정에 logical error 발생...
     private String author;
     @NotEmpty(message = "시간을 알 수 없습니다.")
     private LocalDateTime posted_time;

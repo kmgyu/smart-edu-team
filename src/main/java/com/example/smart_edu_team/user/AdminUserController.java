@@ -29,29 +29,29 @@ public class AdminUserController implements UserController {
 
     @Override
     public String showSignupForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserEntity());
         return "user/signup";
     }
 
     @Override
-    public String signup(User user, BindingResult bindingResult) {
-        if (userService.findByUsername(user.getUsername()).isPresent()) {
+    public String signup(UserEntity userEntity, BindingResult bindingResult) {
+        if (userService.findByUsername(userEntity.getUsername()).isPresent()) {
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-            return "user/signup";
+            return "userEntity/signup";
         }
-        userService.createUser(user);
+        userService.createUser(userEntity);
         return "redirect:/users";
     }
 
     @Override
     public String showLoginForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserEntity());
         return "user/login";
     }
 
     @Override
     public String getUserByUsername(String username, Model model) {
-        Optional<User> user = userService.findByUsername(username);
+        Optional<UserEntity> user = userService.findByUsername(username);
         if (user.isPresent()) {
             model.addAttribute("user", user.get());
             return "user/details";
@@ -61,7 +61,7 @@ public class AdminUserController implements UserController {
 
     @Override
     public String showEditForm(String username, Model model) {
-        Optional<User> user = userService.findByUsername(username);
+        Optional<UserEntity> user = userService.findByUsername(username);
         if (user.isPresent()) {
             model.addAttribute("user", user.get());
             return "user/edit";
@@ -70,8 +70,8 @@ public class AdminUserController implements UserController {
     }
 
     @Override
-    public String updateUser(String username, User userDetails) {
-        userService.updateUser(username, userDetails);
+    public String updateUser(String username, UserEntity userEntityDetails) {
+        userService.updateUser(username, userEntityDetails);
         return "redirect:/users";
     }
 

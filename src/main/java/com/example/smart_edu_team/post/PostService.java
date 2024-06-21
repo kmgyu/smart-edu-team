@@ -15,7 +15,6 @@ import java.util.UUID;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final UserRepository userRepository;
 
     public List<Post> getAllPosts() {
         return postRepository.findAll();
