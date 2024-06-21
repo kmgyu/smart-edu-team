@@ -3,8 +3,9 @@
     <h1>User Details</h1>
     <div class="card">
         <div class="card-body">
-            <p>ID: <span th:text="${user.id}">1</span></p>
-            <p>Username: <span th:text="${user.username}">Username</span></p>
+            <p>Username: <span th:text="${user.getUsername()}">Username</span></p>
+            <p>Email: <span th:text="${user.getEmail()}">Username</span></p>
+            <p>Name: <span th:text="${user.getName()}">Username</span></p>
         </div>
     </div>
     <a href="/users" class="btn btn-secondary mt-3">Back to List</a>
