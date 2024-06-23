@@ -43,7 +43,7 @@ public class CommonUserController implements UserController {
             return "user/signup";
         }
         userService.createUser(UserDTO);
-        return "redirect:/users";
+        return "redirect:/post/index";
     }
 
     @Override
@@ -67,7 +67,7 @@ public class CommonUserController implements UserController {
     public String updateUser(@PathVariable String username, @ModelAttribute UserDTO userDetails, Principal principal) {
         if ( Objects.equals(principal.getName(), username)) {
             userService.updateUser(username, userDetails);
-            return "redirect:/users";
+            return "redirect:/post/index";
         } else {
             return "user/not_found";
         }
@@ -77,7 +77,7 @@ public class CommonUserController implements UserController {
     public String deleteUser(@PathVariable String username, Principal principal) {
         if ( Objects.equals(principal.getName(), username)) {
             userService.deleteUser(username);
-            return "redirect:/users";
+            return "redirect:/post/index";
         } else {
             return "user/not_found";
         }

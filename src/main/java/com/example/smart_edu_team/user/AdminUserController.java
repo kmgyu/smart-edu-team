@@ -19,7 +19,7 @@ public class AdminUserController implements UserController {
     /**
      * admin 전용 유저 관리 페이지
      * @param model
-     * @return
+     * @return 회원 목록을 반환합니다.
      */
     @GetMapping("/")
     public String getAllUsers(Model model) {
@@ -30,18 +30,12 @@ public class AdminUserController implements UserController {
 
     @Override
     public String showSignupForm(Model model) {
-        model.addAttribute("user", new UserEntity());
-        return "user/signup";
+        return "redirect:/users/signup";
     }
 
     @Override
     public String signup(UserDTO userDTO, BindingResult bindingResult) {
-        if (userService.findByUsername(userDTO.getUsername()).isPresent()) {
-            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-            return "user/signup";
-        }
-        userService.createUser(userDTO);
-        return "redirect:/users";
+        return "redirect:/users/signup";
     }
 
     @Override
@@ -73,12 +67,12 @@ public class AdminUserController implements UserController {
     @Override
     public String updateUser(String username, UserDTO userEntityDetails, Principal principal) {
         userService.updateUser(username, userEntityDetails);
-        return "redirect:/users";
+        return "redirect:/admins/";
     }
 
     @Override
     public String deleteUser(String username, Principal principal) {
         userService.deleteUser(username);
-        return "redirect:/users";
+        return "redirect:/admins/";
     }
 }
