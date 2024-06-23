@@ -9,6 +9,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * DB의 post 테이블에 연동되는 엔티티입니다.
+ */
 @Data
 @Builder
 @NoArgsConstructor

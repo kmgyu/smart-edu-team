@@ -8,7 +8,6 @@
                 </div>
                 <div class="card-body">
                     <form
-                            th:if = "${#authentication.getPrincipal().getUsername() == userEntity.getUsername() or #authentication.getAuthorities() == 'ROLE_ADMIN' }"
                             th:action="@{/users/edit/{username}(username=${userEntity.getUsername()})}" th:object="${userEntity}" method="post">
                         <div class="form-group">
                             <label for="username">Username</label>

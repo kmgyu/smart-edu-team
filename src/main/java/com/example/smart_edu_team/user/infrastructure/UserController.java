@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
+
 /**
  * 사용자에 대한 컨트롤러입니다.
  * 권한에 맞춰 url을 매핑시켜줄 수 있습니다.
@@ -47,7 +49,7 @@ public interface UserController {
      * @return 유저 정보 템플릿을 리턴합니다. 만약 유저가 없을 시, 유저 notfound 템플릿을 리턴합니다.
      */
     @GetMapping("/{username}")
-    public String getUserByUsername(@PathVariable String username, Model model);
+    public String getUserByUsername(@PathVariable String username, Model model, Principal principal);
 
     /**
      * 유저 수정 페이지를 가져오는 get 요청 메소드
@@ -56,7 +58,7 @@ public interface UserController {
      * @return 유저 정보 수정 템플릿을 리턴합니다. 만약 유저가 없을 시, 유저 notfound 템플릿을 리턴합니다.
      */
     @GetMapping("/edit/{username}")
-    public String showEditForm(@PathVariable String username, Model model);
+    public String showEditForm(@PathVariable String username, Model model, Principal principal);
 
     /**
      * 유저 수정 페이지 Post 요청 메소드
@@ -65,7 +67,7 @@ public interface UserController {
      * @return
      */
     @PostMapping("/edit/{username}")
-    public String updateUser(@PathVariable String username, @ModelAttribute UserDTO userDetails);
+    public String updateUser(@PathVariable String username, @ModelAttribute UserDTO userDetails, Principal principal);
 
     /**
      * 유저를 삭제하는 요청에 대한 메소드
@@ -73,5 +75,5 @@ public interface UserController {
      * @return
      */
     @PostMapping("/delete/{username}")
-    public String deleteUser(@PathVariable String username);
+    public String deleteUser(@PathVariable String username, Principal principal);
 }

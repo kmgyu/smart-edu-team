@@ -26,6 +26,7 @@ public class UserSecurityService implements UserDetailsService {
 
     /**
      * 유저에게 권한을 발급하는 메서드입니다.
+     * 관리자 계정은 admin 이라는 유저 아이디를 가진 계정 하나만 존재합니다.
      * @param username
      * @return User 객체를 리턴합니다. 유저 아이디와 비밀번호, 권한이 포함됩니다.
      * @throws UsernameNotFoundException

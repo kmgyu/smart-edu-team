@@ -1,5 +1,6 @@
 package com.example.smart_edu_team.post;
 
+import com.example.smart_edu_team.user.UserDTO;
 import com.example.smart_edu_team.user.UserEntity;
 import com.example.smart_edu_team.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,7 @@ public class PostController {
 
     @PostMapping("/create")
     public String createPost(@ModelAttribute Post post, Principal principal) {
-        Optional<UserEntity> user = userService.findByUsername(principal.getName());
+        Optional<UserDTO> user = userService.findByUsername(principal.getName());
         if (user.isPresent()) {
             postService.createPost(post, user.get().getUsername());
         }

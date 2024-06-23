@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -50,7 +51,7 @@ public class AdminUserController implements UserController {
     }
 
     @Override
-    public String getUserByUsername(String username, Model model) {
+    public String getUserByUsername(String username, Model model, Principal principal) {
         Optional<UserDTO> user = userService.findByUsername(username);
         if (user.isPresent()) {
             model.addAttribute("user", user.get());
@@ -60,7 +61,7 @@ public class AdminUserController implements UserController {
     }
 
     @Override
-    public String showEditForm(String username, Model model) {
+    public String showEditForm(String username, Model model, Principal principal) {
         Optional<UserDTO> user = userService.findByUsername(username);
         if (user.isPresent()) {
             model.addAttribute("user", user.get());
@@ -70,13 +71,13 @@ public class AdminUserController implements UserController {
     }
 
     @Override
-    public String updateUser(String username, UserDTO userEntityDetails) {
+    public String updateUser(String username, UserDTO userEntityDetails, Principal principal) {
         userService.updateUser(username, userEntityDetails);
         return "redirect:/users";
     }
 
     @Override
-    public String deleteUser(String username) {
+    public String deleteUser(String username, Principal principal) {
         userService.deleteUser(username);
         return "redirect:/users";
     }
