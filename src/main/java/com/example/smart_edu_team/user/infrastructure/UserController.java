@@ -25,7 +25,7 @@ public interface UserController {
     public String showSignupForm(Model model);
 
     /**
-     * 회원가입에 대한 Post 요청 메소드, 관리자 url에서는 무조건 사용자 url로 리다이렉트합니다.
+     * 회원가입에 대한 PostEntity 요청 메소드, 관리자 url에서는 무조건 사용자 url로 리다이렉트합니다.
      * @param userDTO post할 유저 정보입니다.
      * @param bindingResult 오류 메시지가 바인딩 됩니다.
      * @return 회원가입 템플릿 파일 이름을 리턴합니다.
@@ -63,7 +63,7 @@ public interface UserController {
     public String showEditForm(@PathVariable String username, Model model, Principal principal);
 
     /**
-     * 유저 수정 페이지 Post 요청 메소드
+     * 유저 수정 페이지 PostEntity 요청 메소드
      * @param username path Variable(=parameter)로 유저 아이디를 받아옵니다.
      * @param userDetails Model attribute로 회원 상세 데이터를 받아옵니다.
      * @param principal 로그인 정보

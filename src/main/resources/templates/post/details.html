@@ -3,9 +3,9 @@
     <h1>Post Details</h1>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title" th:text="${post.title}">Title</h5>
-            <h6 class="card-subtitle mb-2 text-muted" th:text="${post.author}">Author</h6>
-            <p class="card-text" th:text="${post.content}">Content</p>
+            <h5 class="card-title" th:text="${postEntity.title}">Title</h5>
+            <h6 class="card-subtitle mb-2 text-muted" th:text="${postEntity.author}">Author</h6>
+            <p class="card-text" th:text="${postEntity.content}">Content</p>
         </div>
     </div>
     <a href="/posts/index" class="btn btn-secondary mt-3">Back to List</a>

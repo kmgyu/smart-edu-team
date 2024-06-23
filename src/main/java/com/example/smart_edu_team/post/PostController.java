@@ -1,8 +1,5 @@
 package com.example.smart_edu_team.post;
 
-import com.example.smart_edu_team.user.UserDTO;
-import com.example.smart_edu_team.user.UserEntity;
-import com.example.smart_edu_team.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -40,7 +37,7 @@ public class PostController {
      */
     @GetMapping("/detail/{id}")
     public String getPostById(@PathVariable String id, Model model) {
-        Optional<Post> post = postService.getPostById(id);
+        Optional<PostDTO> post = postService.getPostById(id);
         if (post.isPresent()) {
             model.addAttribute("post", post.get());
             return "post/details";
@@ -55,19 +52,19 @@ public class PostController {
      */
     @GetMapping("/create")
     public String showCreateForm(Model model) {
-        model.addAttribute("post", new Post());
+        model.addAttribute("post", new PostEntity());
         return "post/create";
     }
 
     /**
-     *
-     * @param post Model attribute로 post를 받아옵니다.
-     * @param principal
-     * @return
+     * 회원 이름을 기반으로 게시글을 생성하고, 게시글 목록으로 리다이렉트합니다.
+     * @param postDTO Model attribute로 post를 받아옵니다.
+     * @param principal 로그인 정보입니다.
+     * @return 게시글 목록으로 리다이렉트합니다.
      */
     @PostMapping("/create")
-    public String createPost(@ModelAttribute Post post, Principal principal) {
-        postService.createPost(post, principal.getName());
+    public String createPost(@ModelAttribute PostDTO postDTO, Principal principal) {
+        postService.createPost(postDTO, principal.getName());
         return "redirect:/posts/index";
     }
 
@@ -75,12 +72,12 @@ public class PostController {
      * 수정 페이지를 리턴합니다. 권한이 없거나 아이디가 다를 경우 bad_request를 반환합니다.
      * @param id 작성글의 아이디입니다.
      * @param model
-     * @param principal
+     * @param principal 로그인 정보입니다.
      * @return 게시글이 없으면 not_found를 반환합니다. 아이디가 다르거나 접근 권한이 없을경우, bad_request를 반환합니다. 조건 충족시, 수정 페이지를 반환합니다.
      */
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable String id, Model model, Principal principal) {
-        Optional<Post> post = postService.getPostById(id);
+        Optional<PostDTO> post = postService.getPostById(id);
         if (post.isEmpty()) {
             return "post/not_found";
         }
@@ -92,7 +89,7 @@ public class PostController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updatePost(@PathVariable String id, @ModelAttribute Post postDetails) {
+    public String updatePost(@PathVariable String id, @ModelAttribute PostDTO postDetails) {
         postService.updatePost(id, postDetails);
         return "redirect:/posts/index";
     }

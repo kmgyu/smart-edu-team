@@ -12,20 +12,20 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="post : ${posts}">
-            <td th:text="${post.id}">1</td>
-            <td th:text="${post.title}">Title</td>
-            <td th:text="${post.author}">Author</td>
+        <tr th:each="postEntity : ${posts}">
+            <td th:text="${postEntity.id}">1</td>
+            <td th:text="${postEntity.title}">Title</td>
+            <td th:text="${postEntity.author}">Author</td>
             <td>
-                <a th:href="@{/posts/detail/{id}(id=${post.id})}" class="btn btn-info btn-sm">View</a>
-                <a th:href="@{|/posts/edit/${post.id}|}" class="btn btn-sm btn-outline-secondary"
-                   sec:authorize="isAuthenticated() and (hasRole('ADMIN') or (#authentication.getPrincipal().getUsername() == post.author))"
+                <a th:href="@{/posts/detail/{id}(id=${postEntity.id})}" class="btn btn-info btn-sm">View</a>
+                <a th:href="@{|/posts/edit/${postEntity.id}|}" class="btn btn-sm btn-outline-secondary"
+                   sec:authorize="isAuthenticated() and (hasRole('ADMIN') or (#authentication.getPrincipal().getUsername() == postEntity.author))"
                    th:text="Edit"></a>
 
 
-                <form th:action="@{/posts/delete/{id}(id=${post.id})}" method="post"
+                <form th:action="@{/posts/delete/{id}(id=${postEntity.id})}" method="postEntity"
                       sec:authorize="isAuthenticated()"
-                      th:if="${post.author != null and #authentication.getPrincipal().getUsername() == post.author}"
+                      th:if="${postEntity.author != null and #authentication.getPrincipal().getUsername() == postEntity.author}"
                       style="display:inline;">
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>

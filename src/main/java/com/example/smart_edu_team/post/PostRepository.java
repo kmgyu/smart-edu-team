@@ -7,14 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/**
+ * Jpa Repository를 상속받는 인터페이스입니다.
+ * 런타임에 구현됩니다.
+ */
 @Repository
-public interface PostRepository extends JpaRepository<Post, String> {
-    /**
-     * parameter id binding to query, id.
-     * Optional에 wrapping된 Post를 반환합니다. isPresent() 사용을 통해 존재 여부 확인이 용이합니다.
-     * @param id
-     * @return post
-     */
-    @Query("select p from Post p where p.id = :id")
-    public Optional<Post> findByPostId(@Param("id") String id);
+public interface PostRepository extends JpaRepository<PostEntity, String> {
 }

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Post {
+public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,8 +27,8 @@ public class Post {
     private String content;
 //  Controller에서 로그인 정보를 가져옴. notempty일 시 템플릿에서 폼데이터를 파싱해 postDTO로 변환시키는 과정에 logical error 발생...
     private String author;
-    @NotEmpty(message = "시간을 알 수 없습니다.")
+//  서버 시간 기준으로 생성
     private LocalDateTime posted_time;
-    @NotEmpty(message = "시간을 알 수 없습니다.")
+//  동일, 서버 시간 기준 생성
     private LocalDateTime edited_time;
 }
