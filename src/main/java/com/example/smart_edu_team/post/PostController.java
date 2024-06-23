@@ -36,7 +36,7 @@ public class PostController {
      * @return 게시글 상세 내용을 반환하나, id에 해당하는 게시글 미존재 시 not_found 템플릿을 반환합니다.
      */
     @GetMapping("/detail/{id}")
-    public String getPostById(@PathVariable String id, Model model) {
+    public String getPostById(@PathVariable Long id, Model model) {
         Optional<PostDTO> post = postService.getPostById(id);
         if (post.isPresent()) {
             model.addAttribute("post", post.get());
@@ -76,7 +76,7 @@ public class PostController {
      * @return 게시글이 없으면 not_found를 반환합니다. 아이디가 다르거나 접근 권한이 없을경우, bad_request를 반환합니다. 조건 충족시, 수정 페이지를 반환합니다.
      */
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable String id, Model model, Principal principal) {
+    public String showEditForm(@PathVariable Long id, Model model, Principal principal) {
         Optional<PostDTO> post = postService.getPostById(id);
         if (post.isEmpty()) {
             return "post/not_found";
@@ -88,14 +88,25 @@ public class PostController {
         return "post/edit";
     }
 
+    /**
+     * 게시글 수정 Post 메서드입니다. id를 기반으로 게시글을 수정하고 게시글 목록으로 리다이렉트 합니다.
+     * @param id 게시글 아이디
+     * @param postDetails 수정할 게시글 내용
+     * @return 게시글 목록 리다이렉트
+     */
     @PostMapping("/edit/{id}")
-    public String updatePost(@PathVariable String id, @ModelAttribute PostDTO postDetails) {
+    public String updatePost(@PathVariable Long id, @ModelAttribute PostDTO postDetails) {
         postService.updatePost(id, postDetails);
         return "redirect:/posts/index";
     }
 
+    /**
+     * 게시글 삭제 메서드입니다. id 기반으로 게시글 삭제 후 게시글 목록으로 리다이렉트 합니다.
+     * @param id 게시글 아이디
+     * @return 게시글 목록 리다이렉트
+     */
     @PostMapping("/delete/{id}")
-    public String deletePost(@PathVariable String id) {
+    public String deletePost(@PathVariable Long id) {
         postService.deletePost(id);
         return "redirect:/posts/index";
     }

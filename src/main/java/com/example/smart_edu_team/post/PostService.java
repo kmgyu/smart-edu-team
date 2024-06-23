@@ -27,7 +27,7 @@ public class PostService {
      * @param id 게시글 아이디
      * @return Optional로 래핑된 게시글을 반환합니다. 미존재 시 empty 일 수 있습니다.
      */
-    public Optional<PostDTO> getPostById(String id) {
+    public Optional<PostDTO> getPostById(Long id) {
         Optional<PostEntity> postEntity = postRepository.findById(id);
         PostDTO result = null;
         if (postEntity.isPresent()) {
@@ -57,7 +57,7 @@ public class PostService {
      * @param postDetails 수정할 게시글 내용
      * @return 수정된 내용을 반환합니다. 게시글 미존재 시, null을 반환합니다.
      */
-    public PostDTO updatePost(String id, PostDTO postDetails) {
+    public PostDTO updatePost(Long id, PostDTO postDetails) {
         Optional<PostEntity> post = postRepository.findById(id);
         PostEntity postEntity1;
         if (post.isPresent()) {
@@ -77,7 +77,7 @@ public class PostService {
      * @param id 게시글 아이디
      * @return 게시글 존재 및 삭제 성공 시 true, 미존재 시 false 반환
      */
-    public boolean deletePost(String id) {
+    public boolean deletePost(Long id) {
         Optional<PostEntity> post = postRepository.findById(id);
         if (post.isPresent()) {
             postRepository.delete(post.get());

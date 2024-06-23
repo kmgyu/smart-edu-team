@@ -12,5 +12,5 @@ import java.util.Optional;
  * 런타임에 구현됩니다.
  */
 @Repository
-public interface PostRepository extends JpaRepository<PostEntity, String> {
+public interface PostRepository extends JpaRepository<PostEntity, Long> {
 }

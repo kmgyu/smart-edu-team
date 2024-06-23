@@ -1,13 +1,12 @@
 package com.example.smart_edu_team.post;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.smart_edu_team.comment.CommentEntity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * DB의 post 테이블에 연동되는 엔티티입니다.
@@ -24,6 +23,7 @@ public class PostEntity {
     @NotEmpty(message = "필수항목입니다.")
     private String title;
     @NotEmpty(message = "필수항목입니다.")
+    @Column(columnDefinition = "TEXT")
     private String content;
 //  Controller에서 로그인 정보를 가져옴. notempty일 시 템플릿에서 폼데이터를 파싱해 postDTO로 변환시키는 과정에 logical error 발생...
     private String author;
@@ -31,4 +31,6 @@ public class PostEntity {
     private LocalDateTime posted_time;
 //  동일, 서버 시간 기준 생성
     private LocalDateTime edited_time;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<CommentEntity> commentEntityList;
 }
