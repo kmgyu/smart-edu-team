@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
 
+/**
+ * DB의 User테이블과 연결된 클래스입니다.
+ */
 @Data
 @Entity
 @Builder

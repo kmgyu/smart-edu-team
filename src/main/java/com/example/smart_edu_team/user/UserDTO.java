@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
-    @Size(min = 5, max = 17)
+    @Size(min = 5, max = 17, message = "최소 5글자 최대 17글자입니다.")
     @NotEmpty(message = "필수항목입니다.")
     private String username;
     @NotEmpty(message = "필수항목입니다.")

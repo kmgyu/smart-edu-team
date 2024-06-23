@@ -1,5 +1,6 @@
 package com.example.smart_edu_team.user.infrastructure;
 
+import com.example.smart_edu_team.user.UserDTO;
 import com.example.smart_edu_team.user.UserEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,12 +24,12 @@ public interface UserController {
 
     /**
      * 회원가입에 대한 Post 요청 메소드
-     * @param userEntity
+     * @param userDTO
      * @param bindingResult
      * @return 회원가입 템플릿 파일 이름을 리턴합니다.
      */
     @PostMapping("/signup")
-    public String signup(@ModelAttribute UserEntity userEntity, BindingResult bindingResult);
+    public String signup(@ModelAttribute UserDTO userDTO, BindingResult bindingResult);
 
     /**
      * 로그인에 대한 get 요청 메소드
@@ -60,11 +61,11 @@ public interface UserController {
     /**
      * 유저 수정 페이지 Post 요청 메소드
      * @param username
-     * @param userEntityDetails
+     * @param userDetails
      * @return
      */
     @PostMapping("/edit/{username}")
-    public String updateUser(@PathVariable String username, @ModelAttribute UserEntity userEntityDetails);
+    public String updateUser(@PathVariable String username, @ModelAttribute UserDTO userDetails);
 
     /**
      * 유저를 삭제하는 요청에 대한 메소드
