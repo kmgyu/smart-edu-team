@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 댓글에 대한 컨트롤러입니다.
@@ -33,6 +34,7 @@ public class CommentController {
 
     /**
      * 댓글을 수정 후 리다이렉트 합니다.
+     * 댓글 미존재시, not_found, 댓글 수정 권한이 없을 시, bad_request 템플릿을 반환합니다.
      * @param postId 게시글 아이디입니다. 리다이렉트 시 요구됩니다.
      * @param commentDTO 수정할 댓글 데이터입니다.
      * @param principal 작성자 이름을 받아올 때 필요합니다.
@@ -40,7 +42,12 @@ public class CommentController {
      */
     @PostMapping("/{postId}/edit")
     public String updateComment(@PathVariable Long postId, @ModelAttribute CommentDTO commentDTO, Principal principal) {
-        if (!Objects.equals(principal.getName(), principal.getName()) && !Objects.equals(principal.getName(), "admin")) {
+        Optional<CommentDTO> origin = commentService.findById(commentDTO.getId());
+        if (origin.isEmpty()) {
+            return "post/not_found";
+        }
+        if (!Objects.equals(origin.get().getAuthor(), principal.getName())
+                && !Objects.equals(principal.getName(), "admin")) {
             return "post/bad_request";
         }
         commentService.updateComment(commentDTO);
@@ -49,6 +56,7 @@ public class CommentController {
 
     /**
      * 댓글 삭제 메소드입니다. 삭제 후 리다이렉트 합니다. Post 요청인 것에 주의
+     * 댓글 미존재시, not_found, 댓글 수정 권한이 없을 시, bad_request 템플릿을 반환합니다.
      * @param postId 게시글 아이디입니다.
      * @param id 삭제할 댓글 아이디입니다.
      * @param principal
@@ -56,7 +64,12 @@ public class CommentController {
      */
     @PostMapping("/{postId}/delete/{id}")
     public String deleteComment(@PathVariable Long postId, @PathVariable Long id, Principal principal) {
-        if (!Objects.equals(principal.getName(), principal.getName()) && !Objects.equals(principal.getName(), "admin")) {
+        Optional<CommentDTO> origin = commentService.findById(id);
+        if (origin.isEmpty()) {
+            return "post/not_found";
+        }
+        if (!Objects.equals(origin.get().getAuthor(), principal.getName())
+                && !Objects.equals(principal.getName(), "admin")) {
             return "post/bad_request";
         }
         commentService.deleteComment(id);
