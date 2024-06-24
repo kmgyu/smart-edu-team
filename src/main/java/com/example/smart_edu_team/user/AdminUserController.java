@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.Optional;
 
+/**
+ * 관리자용 컨트롤러입니다.
+ * url이 일반 사용자와 달라 필터링하기 수월합니다.
+ */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admins")

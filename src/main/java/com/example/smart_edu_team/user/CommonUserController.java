@@ -11,6 +11,9 @@ import java.security.Principal;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * 일반 사용자 컨트롤러입니다.
+ */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/users")

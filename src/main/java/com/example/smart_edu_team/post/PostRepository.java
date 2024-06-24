@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * Jpa Repository를 상속받는 인터페이스입니다.
+ * Post에 대한 DB CRUD repository입니다.
  * 런타임에 구현됩니다.
  */
 @Repository
