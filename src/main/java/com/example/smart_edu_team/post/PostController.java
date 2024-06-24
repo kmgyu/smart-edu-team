@@ -11,6 +11,10 @@ import java.security.Principal;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * 게시글에 대한 컨트롤러입니다.
+ * 생성, 수정, 삭제 모두 Post 메소드임에 주의하십시오.
+ */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/posts")
@@ -81,8 +85,8 @@ public class PostController {
         if (post.isEmpty()) {
             return "post/not_found";
         }
-        if(!(post.get().getAuthor().equals(principal.getName()) || Objects.equals(principal.getName(), "admin"))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        if(!(post.get().getAuthor().equals(principal.getName()) || !Objects.equals(principal.getName(), "admin"))) {
+            return "post/bad_request";
         }
         model.addAttribute("post", post.get());
         return "post/edit";
@@ -95,7 +99,15 @@ public class PostController {
      * @return 게시글 목록 리다이렉트
      */
     @PostMapping("/edit/{id}")
-    public String updatePost(@PathVariable Long id, @ModelAttribute PostDTO postDetails) {
+    public String updatePost(@PathVariable Long id, @ModelAttribute PostDTO postDetails, Principal principal) {
+        Optional<PostDTO> post = postService.getPostById(id);
+        if (post.isEmpty()) {
+            return "post/not_found";
+        }
+        String authorId =post.get().getAuthor();
+        if (!Objects.equals(principal.getName(), authorId) || !Objects.equals(principal.getName(), "admin")) {
+            return "post/bad_request";
+        }
         postService.updatePost(id, postDetails);
         return "redirect:/posts/index";
     }
@@ -106,7 +118,7 @@ public class PostController {
      * @return 게시글 목록 리다이렉트
      */
     @PostMapping("/delete/{id}")
-    public String deletePost(@PathVariable Long id) {
+    public String deletePost(@PathVariable Long id, Principal principal) {
         postService.deletePost(id);
         return "redirect:/posts/index";
     }
