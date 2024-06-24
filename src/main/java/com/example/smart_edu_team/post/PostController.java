@@ -111,7 +111,7 @@ public class PostController {
             return "post/not_found";
         }
         String authorId =post.get().getAuthor();
-        if (!Objects.equals(principal.getName(), authorId) || !Objects.equals(principal.getName(), "admin")) {
+        if (!Objects.equals(principal.getName(), authorId) && !Objects.equals(principal.getName(), "admin")) {
             return "post/bad_request";
         }
         postService.updatePost(id, postDetails);

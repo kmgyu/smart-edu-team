@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Objects;
 
 /**
  * 댓글에 대한 컨트롤러입니다.
@@ -39,6 +40,9 @@ public class CommentController {
      */
     @PostMapping("/{postId}/edit")
     public String updateComment(@PathVariable Long postId, @ModelAttribute CommentDTO commentDTO, Principal principal) {
+        if (!Objects.equals(principal.getName(), principal.getName()) && !Objects.equals(principal.getName(), "admin")) {
+            return "redirect:/bad_request";
+        }
         commentService.updateComment(commentDTO);
         return "redirect:/posts/detail/" + postId.toString();
     }
