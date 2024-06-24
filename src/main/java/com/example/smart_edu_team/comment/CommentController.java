@@ -59,7 +59,7 @@ public class CommentController {
      * 댓글 미존재시, not_found, 댓글 수정 권한이 없을 시, bad_request 템플릿을 반환합니다.
      * @param postId 게시글 아이디입니다.
      * @param id 삭제할 댓글 아이디입니다.
-     * @param principal
+     * @param principal 작성자 이름을 받아올 때 필요합니다.
      * @return 게시글 아이디를 기반으로 게시글 페이지로 리다이렉트시킵니다.
      */
     @PostMapping("/{postId}/delete/{id}")
