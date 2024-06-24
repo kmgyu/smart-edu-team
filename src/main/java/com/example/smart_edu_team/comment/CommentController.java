@@ -56,6 +56,9 @@ public class CommentController {
      */
     @PostMapping("/{postId}/delete/{id}")
     public String deleteComment(@PathVariable Long postId, @PathVariable Long id, Principal principal) {
+        if (!Objects.equals(principal.getName(), principal.getName()) && !Objects.equals(principal.getName(), "admin")) {
+            return "post/bad_request";
+        }
         commentService.deleteComment(id);
         return "redirect:/posts/detail/" + postId.toString();
     }
