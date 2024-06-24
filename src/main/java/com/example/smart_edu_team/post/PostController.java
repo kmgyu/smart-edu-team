@@ -1,5 +1,7 @@
 package com.example.smart_edu_team.post;
 
+import com.example.smart_edu_team.comment.CommentDTO;
+import com.example.smart_edu_team.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -21,6 +24,7 @@ import java.util.Optional;
 public class PostController {
 
     private final PostService postService;
+    private final CommentService commentService;
 
     /**
      * 게시글 목록을 반환합니다.
@@ -42,8 +46,10 @@ public class PostController {
     @GetMapping("/detail/{id}")
     public String getPostById(@PathVariable Long id, Model model) {
         Optional<PostDTO> post = postService.getPostById(id);
+        List<CommentDTO> comments = commentService.getAllComments(id);
         if (post.isPresent()) {
             model.addAttribute("post", post.get());
+            model.addAttribute("comments", comments);
             return "post/details";
         }
         return "post/not_found";

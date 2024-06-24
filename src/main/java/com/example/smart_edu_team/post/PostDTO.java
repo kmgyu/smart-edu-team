@@ -1,9 +1,11 @@
 package com.example.smart_edu_team.post;
 
+import com.example.smart_edu_team.comment.CommentDTO;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Post에 대한 DTO입니다.

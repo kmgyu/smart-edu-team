@@ -9,5 +9,49 @@
         </div>
     </div>
     <a href="/posts/index" class="btn btn-secondary mt-3">Back to List</a>
-</div>
+    </div>
+
+    <!-- 댓글 섹션 -->
+    <div class="comments-section mt-5">
+        <h2>Comments</h2>
+        <div th:each="comment : ${comments}">
+            <div class="comment mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <p th:text="${comment.content}">This is a comment content.</p>
+                        <p><strong>Author:</strong> <span th:text="${comment.author}">Author Name</span></p>
+                        <p><strong>Posted on:</strong> <span th:text="${#dates.format(comment.posted_time, 'yyyy-MM-dd HH:mm')}">2024-06-24 12:00</span></p>
+                        <p th:if="${comment.edited_time != null}"><strong>Edited on:</strong> <span th:text="${#dates.format(comment.edited_time, 'yyyy-MM-dd HH:mm')}">2024-06-24 14:00</span></p>
+
+                        <!-- 댓글 수정 및 삭제 버튼 -->
+                        <div sec:authorize="isAuthenticated()">
+                            <button type="button" class="btn btn-primary btn-sm" th:onclick="'editComment(' + ${comment.id} + ')'">Edit</button>
+                            <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 댓글 작성 폼 -->
+    <div class="comment-form mt-5">
+        <h3>Leave a Comment</h3>
+        <form th:action="@{/comments/add}" method="post">
+            <div class="form-group">
+                <label for="content">Comment:</label>
+                <textarea id="content" name="content" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+
+
+
 </div>

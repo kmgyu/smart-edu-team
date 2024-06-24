@@ -1,5 +1,9 @@
 package com.example.smart_edu_team.post;
 
+import com.example.smart_edu_team.comment.CommentMapper;
+
+import java.util.stream.Collectors;
+
 public class PostMapper {
     /**
      * postEntity를 postDTO로 변환하여 반환합니다.
