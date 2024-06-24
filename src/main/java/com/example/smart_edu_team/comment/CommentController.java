@@ -44,15 +44,15 @@ public class CommentController {
     }
 
     /**
-     * 댓글 삭제 메소드입니다. 삭제 후 리다이렉트 합니다.
+     * 댓글 삭제 메소드입니다. 삭제 후 리다이렉트 합니다. Post 요청인 것에 주의
      * @param postId 게시글 아이디입니다.
-     * @param commentDTO 삭제할 댓글 아이디입니다.
+     * @param id 삭제할 댓글 아이디입니다.
      * @param principal
      * @return 게시글 아이디를 기반으로 게시글 페이지로 리다이렉트시킵니다.
      */
-    @PostMapping("/{postId}/delete")
-    public String deleteComment(@PathVariable Long postId, @ModelAttribute CommentDTO commentDTO, Principal principal) {
-        commentService.deleteComment(commentDTO.getId());
+    @PostMapping("/{postId}/delete/{id}")
+    public String deleteComment(@PathVariable Long postId, @PathVariable Long id, Principal principal) {
+        commentService.deleteComment(id);
         return "redirect:/posts/detail/" + postId.toString();
     }
 

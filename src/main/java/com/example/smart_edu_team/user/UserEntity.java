@@ -2,6 +2,7 @@ package com.example.smart_edu_team.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 
 /**
@@ -12,6 +13,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "user")
 public class UserEntity {
     // jakarta persistance와 data annotation의 id 어노테이션이 다른것에 주의
     @Id

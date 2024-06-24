@@ -30,7 +30,7 @@ public class CommentService {
     public List<CommentDTO> getAllComments(long postId) {
         Optional<PostEntity> postEntity = postRepository.findById(postId);
         if(postEntity.isPresent()) {
-            return commentRepository.findAllByPostEntity(postEntity.get()).stream().map(CommentMapper::toDTO).collect(Collectors.toList());
+            return commentRepository.findAllByPostId(postEntity.get().getId()).stream().map(CommentMapper::toDTO).collect(Collectors.toList());
         }
         return new ArrayList<>();
     }
@@ -61,11 +61,15 @@ public class CommentService {
         Optional<PostEntity> postEntity = postRepository.findById(postId);
         Optional<CommentEntity> commentEntity = Optional.empty();
         if (postEntity.isPresent()) {
-            commentDTO.setAuthor(author);
-            commentDTO.setEdited_time(LocalDateTime.now());
-            commentDTO.setPosted_time(LocalDateTime.now());
-            commentEntity = Optional.of(CommentMapper.toEntity(commentDTO, postEntity.get()));
-            commentRepository.save(commentEntity.get());
+            CommentEntity comment = CommentEntity.builder()
+                    .content(commentDTO.getContent())
+                    .author(author)
+                    .edited_time(LocalDateTime.now())
+                    .posted_time(LocalDateTime.now())
+                    .post(postEntity.get())
+                    .build();
+            commentEntity = Optional.of(comment);
+            commentRepository.save(comment);
             return Optional.of(commentDTO);
         }
         return Optional.empty();

@@ -8,24 +8,27 @@
             <th>ID</th>
             <th>Title</th>
             <th>Author</th>
+            <th>Posted Time</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="postDTO : ${posts}">
-            <td th:text="${postDTO.id}">1</td>
-            <td th:text="${postDTO.title}">Title</td>
-            <td th:text="${postDTO.author}">Author</td>
+        <tr th:each="post : ${posts}" th:order-by="${post.posted_time}">
+            <td th:text="${post.id}">1</td>
+            <td th:text="${post.title}">Title</td>
+            <td th:text="${post.author}">Author</td>
+            <td th:text="${#temporals.format(post.posted_time, 'yyyy-MM-dd HH:mm')}">posted time</td>
             <td>
-                <a th:href="@{/posts/detail/{id}(id=${postDTO.id})}" class="btn btn-info btn-sm">View</a>
-                <a th:href="@{|/posts/edit/${postDTO.id}|}" class="btn btn-sm btn-outline-secondary"
-                   sec:authorize="isAuthenticated() and (hasRole('ADMIN') or (#authentication.getPrincipal().getUsername() == postEntity.author))"
+                <a th:href="@{/posts/detail/{id}(id=${post.id})}" class="btn btn-info btn-sm">View</a>
+
+                <a sec:authorize="isAuthenticated()"
+                   th:if = "${post.author == #authentication.getPrincipal().getUsername() or #authentication.getPrincipal().getUsername() == 'admin'}"
+                   th:href="@{|/posts/edit/${post.id}|}" class="btn btn-sm btn-outline-secondary"
                    th:text="Edit"></a>
 
-
-                <form th:action="@{/posts/delete/{id}(id=${postDTO.id})}" method="delete"
-                      sec:authorize="isAuthenticated()"
-                      th:if="${postDTO.author != null and #authentication.getPrincipal().getUsername() == postDTO.author}"
+                <form sec:authorize="isAuthenticated()"
+                      th:if = "${post.author == #authentication.getPrincipal().getUsername() or #authentication.getPrincipal().getUsername() == 'admin'}"
+                      th:action="@{/posts/delete/{id}(id=${post.id})}" method="post"
                       style="display:inline;">
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>

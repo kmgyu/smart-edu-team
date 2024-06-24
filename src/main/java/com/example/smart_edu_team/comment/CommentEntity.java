@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "comment")
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +30,5 @@ public class CommentEntity {
     private LocalDateTime posted_time;
     private LocalDateTime edited_time;
     @ManyToOne
-    private PostEntity postEntity;
+    private PostEntity post;
 }

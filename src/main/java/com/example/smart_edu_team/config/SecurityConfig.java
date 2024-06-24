@@ -30,12 +30,13 @@ public class SecurityConfig {
         http
 //                권한 필터링
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/admins/login").permitAll()
+                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/posts/create").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/posts/delete/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/posts/edit/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/users/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/users/login").permitAll()
                         .requestMatchers("/users/signup").permitAll()
-                        .requestMatchers("/posts/index").permitAll()
-                        .requestMatchers("/posts/{id}").permitAll()
-                        .requestMatchers("/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/admins/**").hasRole("ADMIN")
                 )
 //                로그인 성공 시 루트 디렉토리로 이동
@@ -48,7 +49,7 @@ public class SecurityConfig {
                                 XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
 //                로그아웃 성공 시 루트 디렉토리 이동
                 .logout((logout) -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/users/logout"))
                         .logoutSuccessUrl("/posts/index")
                         .invalidateHttpSession(true))
         ;

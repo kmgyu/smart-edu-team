@@ -34,7 +34,7 @@ public class CommentMapper {
                 .content(commentDTO.getContent())
                 .edited_time(commentDTO.getEdited_time())
                 .posted_time(commentDTO.getPosted_time())
-                .postEntity(post)
+                .post(post)
                 .build();
     }
 }

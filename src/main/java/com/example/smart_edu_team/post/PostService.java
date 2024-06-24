@@ -44,11 +44,15 @@ public class PostService {
      * @return 생성된 게시글 데이터입니다.
      */
     public PostDTO createPost(PostDTO postDTO, String author) {
-        postDTO.setAuthor(author);
-        postDTO.setPosted_time(LocalDateTime.now());
-        postDTO.setEdited_time(LocalDateTime.now());
-        postRepository.save(PostMapper.toEntity(postDTO));
-        return postDTO;
+        PostEntity post = PostEntity.builder()
+                .title(postDTO.getTitle())
+                .author(author)
+                .content(postDTO.getContent())
+                .posted_time(LocalDateTime.now())
+                .edited_time(LocalDateTime.now())
+                .build();
+        postRepository.save(post);
+        return PostMapper.toDTO(post);
     }
 
     /**
@@ -64,7 +68,6 @@ public class PostService {
             postEntity1 = post.get();
             postEntity1.setTitle(postDetails.getTitle());
             postEntity1.setContent(postDetails.getContent());
-            postEntity1.setAuthor(postDetails.getAuthor());
             postEntity1.setEdited_time(LocalDateTime.now());
             postRepository.save(postEntity1);
             return PostMapper.toDTO(postEntity1);

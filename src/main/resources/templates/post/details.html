@@ -1,57 +1,106 @@
 <div layout:decorate="~{layout}">
     <div layout:fragment="content" class="container mt-5">
-    <h1>Post Details</h1>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title" th:text="${postDTO.title}">Title</h5>
-            <h6 class="card-subtitle mb-2 text-muted" th:text="${postDTO.author}">Author</h6>
-            <p class="card-text" th:text="${postDTO.content}">Content</p>
+        <h1>Post Details</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${post.title}">Title</h5>
+                <h6 class="card-subtitle mb-2 text-muted" th:text="${post.author}">Author</h6>
+                <p class="card-text" th:text="${post.content}">Content</p>
+            </div>
         </div>
-    </div>
-    <a href="/posts/index" class="btn btn-secondary mt-3">Back to List</a>
-    </div>
+        <a sec:authorize="isAuthenticated()"
+           th:if = "${post.author == #authentication.getPrincipal().getUsername() or #authentication.getPrincipal().getUsername() == 'admin'}"
+           th:href="@{|/posts/edit/${post.id}|}" class="btn btn-sm btn-outline-secondary"
+           th:text="Edit"></a>
 
-    <!-- 댓글 섹션 -->
-    <div class="comments-section mt-5">
-        <h2>Comments</h2>
-        <div th:each="comment : ${comments}">
-            <div class="comment mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <p th:text="${comment.content}">This is a comment content.</p>
-                        <p><strong>Author:</strong> <span th:text="${comment.author}">Author Name</span></p>
-                        <p><strong>Posted on:</strong> <span th:text="${#dates.format(comment.posted_time, 'yyyy-MM-dd HH:mm')}">2024-06-24 12:00</span></p>
-                        <p th:if="${comment.edited_time != null}"><strong>Edited on:</strong> <span th:text="${#dates.format(comment.edited_time, 'yyyy-MM-dd HH:mm')}">2024-06-24 14:00</span></p>
+        <form sec:authorize="isAuthenticated()"
+              th:if = "${post.author == #authentication.getPrincipal().getUsername() or #authentication.getPrincipal().getUsername() == 'admin'}"
+              th:action="@{/posts/delete/{id}(id=${post.id})}" method="post"
+              style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
+        <!-- 댓글 섹션 -->
+        <div class="comments-section mt-5">
+            <h2>Comments</h2>
+            <div th:each="comment : ${comments}">
+                <div class="comment mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <p th:text="${comment.content}" id="comment-[[${comment.id}]]-content">This is a comment content.</p>
+                            <p><strong>Author:</strong> <span th:text="${comment.author}">Author Name</span></p>
+                            <p><strong>Posted on:</strong> <span th:text="${#temporals.format(comment.posted_time, 'yyyy-MM-dd HH:mm')}">posted time</span></p>
+                            <p th:if="${comment.edited_time != null}"><strong>Edited on:</strong> <span th:text="${#temporals.format(comment.edited_time, 'yyyy-MM-dd HH:mm')}">2024-06-24 14:00</span></p>
 
-                        <!-- 댓글 수정 및 삭제 버튼 -->
-                        <div sec:authorize="isAuthenticated()">
-                            <button type="button" class="btn btn-primary btn-sm" th:onclick="'editComment(' + ${comment.id} + ')'">Edit</button>
-                            <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
+                            <!-- 댓글 수정 및 삭제 버튼 -->
+                            <div sec:authorize="isAuthenticated()"
+                                 th:if = "${comment.author == #authentication.getPrincipal().getUsername() or #authentication.getPrincipal().getUsername() == 'admin'}">
+                                <!-- 수정 버튼 -->
+                                <button type="button" class="btn btn-primary btn-sm"
+                                        th:onclick="'openEditModal(' + ${comment.id} + ')'" >
+                                    Edit
+                                </button>
+                                <form th:action="@{/comments/{postId}/delete/{id}(id=${comment.id}, postId=${post.id})}" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- 댓글 작성 폼 -->
-    <div class="comment-form mt-5">
-        <h3>Leave a Comment</h3>
-        <form th:action="@{/comments/add}" method="post">
-            <div class="form-group">
-                <label for="content">Comment:</label>
-                <textarea id="content" name="content" class="form-control" rows="3" required></textarea>
+        <!-- 댓글 작성 폼 -->
+        <div class="comment-form mt-5">
+            <h3>Leave a Comment</h3>
+            <form th:action="@{/comments/{postId}/create(postId=${post.id})}" method="post">
+                <div class="form-group">
+                    <label for="content">Comment:</label>
+                    <textarea id="content" name="content" class="form-control" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+
+        <!-- 댓글 수정 모달 -->
+        <div class="modal fade" id="editCommentModal" tabindex="-1" role="dialog" aria-labelledby="editCommentModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editCommentModalLabel">Edit Comment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form th:action="@{|/comments/{postId}/edit(postId=${post.id})|}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" id="editCommentId" name="id" th:value="${editCommentId}" />
+                            <div class="form-group">
+                                <label for="editContent">Comment:</label>
+                                <textarea id="editContent" name="content" class="form-control" rows="3" th:text="${editCommentContent}" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="author">Author:</label>
-                <input type="text" id="author" name="author" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-success">Submit</button>
-        </form>
+        </div>
+
+        <a href="/posts/index" class="btn btn-secondary mt-3">Back to List</a>
     </div>
-
-
-
 </div>
+
+<script th:inline="javascript">
+    /* 댓글 수정 모달 열기 함수 */
+    function openEditModal(commentId) {
+        var content = document.getElementById('comment-' + commentId + '-content').innerText.trim();
+        document.getElementById('editContent').value = content;
+        document.getElementById('editCommentId').value = commentId;
+        $('#editCommentModal').modal('show');
+    }
+</script>
+
+
+</script>
