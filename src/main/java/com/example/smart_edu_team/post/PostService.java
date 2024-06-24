@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * 게시글의 서비스 클래스입니다.
+ */
 @Service
 @RequiredArgsConstructor
 public class PostService {

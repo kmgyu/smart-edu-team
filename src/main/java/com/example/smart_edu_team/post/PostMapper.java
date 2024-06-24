@@ -4,6 +4,10 @@ import com.example.smart_edu_team.comment.CommentMapper;
 
 import java.util.stream.Collectors;
 
+/**
+ * Post의 매퍼 클래스입니다.
+ * 데이터 타입을 변환하는 기능을 담당합니다.
+ */
 public class PostMapper {
     /**
      * postEntity를 postDTO로 변환하여 반환합니다.
