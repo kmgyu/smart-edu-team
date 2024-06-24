@@ -99,10 +99,10 @@ public class PostController {
     }
 
     /**
-     * 게시글 수정 Post 메서드입니다. id를 기반으로 게시글을 수정하고 게시글 목록으로 리다이렉트 합니다.
+     * 게시글 수정 Post 메서드입니다. id를 기반으로 게시글을 수정하고 해당 게시글로 리다이렉트 합니다.
      * @param id 게시글 아이디
      * @param postDetails 수정할 게시글 내용
-     * @return 게시글 목록 리다이렉트
+     * @return 해당 게시글 리다이렉트
      */
     @PostMapping("/edit/{id}")
     public String updatePost(@PathVariable Long id, @ModelAttribute PostDTO postDetails, Principal principal) {
@@ -115,7 +115,7 @@ public class PostController {
             return "post/bad_request";
         }
         postService.updatePost(id, postDetails);
-        return "redirect:/posts/index";
+        return "redirect:/posts/detail/" + id.toString();
     }
 
     /**
