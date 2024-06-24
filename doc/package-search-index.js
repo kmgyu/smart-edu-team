@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.example.smart_edu_team"},{"l":"com.example.smart_edu_team.comment"},{"l":"com.example.smart_edu_team.config"},{"l":"com.example.smart_edu_team.post"},{"l":"com.example.smart_edu_team.user"},{"l":"com.example.smart_edu_team.user.infrastructure"}];updateSearchResults();
