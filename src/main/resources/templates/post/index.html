@@ -1,7 +1,7 @@
 <div layout:decorate="~{layout}">
     <div layout:fragment="content" class="container">
     <h1 class="mb-4">Posts</h1>
-    <a href="/posts/create" class="btn btn-success mb-3">Create Post</a>
+    <a sec:authorize="isAuthenticated()" href="/posts/create" class="btn btn-success mb-3">Create Post</a>
     <table class="table table-striped">
         <thead>
         <tr>
