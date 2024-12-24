@@ -29,10 +29,28 @@ public class CommentService {
      */
     public List<CommentDTO> getAllComments(long postId) {
         Optional<PostEntity> postEntity = postRepository.findById(postId);
-        if(postEntity.isPresent()) {
-            return commentRepository.findAllByPostId(postEntity.get().getId()).stream().map(CommentMapper::toDTO).collect(Collectors.toList());
+        if (postEntity.isEmpty()) {
+            return new ArrayList<>();
         }
-        return new ArrayList<>();
+
+        List<CommentEntity> allComments = commentRepository.findAllByPostId(postId);
+
+        // 최상위 댓글 필터링
+        List<CommentDTO> parentComments = allComments.stream()
+                .filter(comment -> comment.getParentCommentId() == null)
+                .map(CommentMapper::toDTO)
+                .collect(Collectors.toList());
+
+        // 대댓글 추가
+        parentComments.forEach(parent -> {
+            List<CommentDTO> replies = allComments.stream()
+                    .filter(comment -> parent.getId().equals(comment.getParentCommentId()))
+                    .map(CommentMapper::toDTO)
+                    .collect(Collectors.toList());
+            parent.setReplies(replies); // CommentDTO에 replies 필드 추가 필요
+        });
+
+        return parentComments;
     }
 
     /**
@@ -107,5 +125,41 @@ public class CommentService {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 대댓글 생성 메서드입니다. 작성글 및 부모댓글 존재 확인 후 생성합니다.
+     * @param commentDTO
+     * @param postId
+     * @param parentCommentId
+     * @param author
+     * @return
+     */
+    public Optional<CommentDTO> createReply(CommentDTO commentDTO, Long postId, Long parentCommentId, String author) {
+        // 게시글 확인
+        Optional<PostEntity> postEntity = postRepository.findById(postId);
+        if (postEntity.isEmpty()) {
+            return Optional.empty();
+        }
+
+        // 부모 댓글 확인
+        Optional<CommentEntity> parentComment = commentRepository.findById(parentCommentId);
+        if (parentComment.isEmpty()) {
+            return Optional.empty();
+        }
+
+        // 대댓글 생성
+        CommentEntity reply = CommentEntity.builder()
+                .content(commentDTO.getContent())
+                .author(author)
+                .edited_time(LocalDateTime.now())
+                .posted_time(LocalDateTime.now())
+                .post(postEntity.get())
+                .parentCommentId(parentCommentId) // 부모 댓글 ID 설정
+                .build();
+
+        commentRepository.save(reply);
+
+        return Optional.of(CommentMapper.toDTO(reply));
     }
 }

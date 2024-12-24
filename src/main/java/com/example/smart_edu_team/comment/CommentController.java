@@ -76,4 +76,20 @@ public class CommentController {
         return "redirect:/posts/detail/" + postId.toString();
     }
 
+    /**
+     * 대댓글 생성 메서드입니다.
+     * @param postId
+     * @param parentCommentId
+     * @param commentDTO
+     * @param principal
+     * @return
+     */
+    @PostMapping("/{postId}/reply/{parentCommentId}")
+    public String createReply(@PathVariable Long postId,
+                              @PathVariable Long parentCommentId,
+                              @ModelAttribute CommentDTO commentDTO,
+                              Principal principal) {
+        commentService.createReply(commentDTO, postId, parentCommentId, principal.getName());
+        return "redirect:/posts/detail/" + postId.toString();
+    }
 }
