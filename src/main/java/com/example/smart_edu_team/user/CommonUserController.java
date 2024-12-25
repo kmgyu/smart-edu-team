@@ -46,7 +46,7 @@ public class CommonUserController implements UserController {
             return "user/signup";
         }
         userService.createUser(UserDTO);
-        return "redirect:/post/index";
+        return "redirect:/posts/index";
     }
 
     @Override
