@@ -19,3 +19,15 @@ function cancelEdit(button, event) {
     // 취소 버튼 클릭 시 스크롤 이동 방지
     event.preventDefault();
 }
+
+function toggleLikePost(button) {
+    const postId = button.getAttribute("data-id");
+    fetch(`/likes/posts/${postId}`, {
+        method: "POST",
+    })
+        .then(response => response.text())
+        .then(result => {
+            button.textContent = result === "liked" ? "Unlike" : "Like";
+        })
+        .catch(error => console.error("Error:", error));
+}

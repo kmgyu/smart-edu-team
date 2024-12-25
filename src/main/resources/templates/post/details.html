@@ -17,6 +17,7 @@
               th:action="@{/posts/delete/{id}(id=${post.id})}" method="post" style="display:inline;">
             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
         </form>
+        <button class="like-btn" data-id="${post.id}" onclick="toggleLikePost(this)">Like</button>
 
         <!-- 댓글 섹션 -->
         <h3>COMMENT SECTION</h3>
