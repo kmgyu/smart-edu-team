@@ -18,7 +18,12 @@
             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
         </form>
 
-        <button class="like-btn" data-id="${post.id}" onclick="toggleLikePost(this)">Like</button>
+        <div id="post-like-count" th:data-post-id="${post.id}">
+            <p>Likes: <span th:utext="@{/likes/like-count/${post.id}}">Loading...</span></p>
+            <form th:action="@{/likes/toggle-posts/{postId}(postId=${post.id})}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-primary btn-sm">Like</button>
+            </form>
+        </div>
 
         <!-- 댓글 섹션 -->
         <h3>COMMENT SECTION</h3>
@@ -28,6 +33,14 @@
                     <p th:text="${comment.content}">댓글 내용</p>
                     <p><strong>작성자:</strong> <span th:text="${comment.author}">작성자</span></p>
                     <p><strong>작성 시간:</strong> <span th:text="${#temporals.format(comment.posted_time, 'yyyy-MM-dd HH:mm')}"></span></p>
+
+                    <div id="comment-like-count" th:data-comment-id="${comment.id}">
+                        <p>Likes: <span th:utext="@{/likes/like-count/${comment.id}}">Loading...</span></p>
+                        <form th:action="@{/likes/toggle-comments/{commentId}(commentId=${comment.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-primary btn-sm">Like</button>
+                        </form>
+                    </div>
+
 
                     <!-- 대댓글 섹션 -->
                     <div class="replies mt-3">
@@ -67,6 +80,5 @@
         <a href="/posts/index" class="btn btn-secondary mt-3">Back to List</a>
     </div>
 </div>
-
 
 
