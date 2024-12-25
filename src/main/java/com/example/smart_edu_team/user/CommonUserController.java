@@ -40,12 +40,12 @@ public class CommonUserController implements UserController {
     }
 
     @Override
-    public String signup(@ModelAttribute UserDTO UserDTO, BindingResult bindingResult) {
-        if (userService.findByUsername(UserDTO.getUsername()).isPresent()) {
+    public String signup(@ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
+        if (userService.findByUsername(userDTO.getUsername()).isPresent()) {
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
             return "user/signup";
         }
-        userService.createUser(UserDTO);
+        userService.createUser(userDTO);
         return "redirect:/posts/index";
     }
 
