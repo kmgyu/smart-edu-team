@@ -31,3 +31,20 @@ function toggleLikePost(button) {
         })
         .catch(error => console.error("Error:", error));
 }
+
+function fetchNotifications() {
+    fetch('/notifications/unread')
+        .then(response => response.json())
+        .then(notifications => {
+            const list = document.getElementById('notification-list');
+            list.innerHTML = '';
+            notifications.forEach(notification => {
+                const li = document.createElement('li');
+                li.textContent = notification.message;
+                list.appendChild(li);
+            });
+        })
+        .catch(error => console.error('Error fetching notifications:', error));
+}
+
+fetchNotifications();
