@@ -130,6 +130,7 @@ public class CommentService {
         Optional<CommentEntity> commentEntity = commentRepository.findById(id);
         if (commentEntity.isPresent()) {
             commentRepository.delete(commentEntity.get());
+            log.info("comment deleted {}", commentEntity.get().getId());
             return true;
         }
         return false;
@@ -147,12 +148,14 @@ public class CommentService {
         // 게시글 확인
         Optional<PostEntity> postEntity = postRepository.findById(postId);
         if (postEntity.isEmpty()) {
+            log.info("reply - post is empty");
             return Optional.empty();
         }
 
         // 부모 댓글 확인
         Optional<CommentEntity> parentComment = commentRepository.findById(parentCommentId);
         if (parentComment.isEmpty()) {
+            log.info("reply - comment is empty");
             return Optional.empty();
         }
 
@@ -167,6 +170,7 @@ public class CommentService {
                 .build();
 
         commentRepository.save(reply);
+        log.info("post completed {}", reply.getId());
 
         return Optional.of(CommentMapper.toDTO(reply));
     }

@@ -55,6 +55,7 @@ public class PostController {
             model.addAttribute("comments", comments);
             return "post/details";
         }
+        log.warn("post not found {}", id);
         return "post/not_found";
     }
 
@@ -79,6 +80,7 @@ public class PostController {
     public String createPost(@ModelAttribute("post") PostDTO postDTO, Principal principal, BindingResult bindingResult) {
         if (postDTO.getTitle().isBlank() || postDTO.getContent().isBlank()) {
             bindingResult.reject("postFailed", "제목과 내용은 필수항목입니다.");
+            log.warn("post title or content not found {}", postDTO.getId());
             return "post/create";
         }
         postService.createPost(postDTO, principal.getName());
@@ -96,9 +98,11 @@ public class PostController {
     public String showEditForm(@PathVariable Long id, Model model, Principal principal) {
         Optional<PostDTO> post = postService.getPostById(id);
         if (post.isEmpty()) {
+            log.warn("post not found {}", id);
             return "post/not_found";
         }
         if(!(post.get().getAuthor().equals(principal.getName()) || !Objects.equals(principal.getName(), "admin"))) {
+            log.warn("post bad request {}", id);
             return "post/bad_request";
         }
         model.addAttribute("post", post.get());
@@ -115,10 +119,12 @@ public class PostController {
     public String updatePost(@PathVariable Long id, @ModelAttribute PostDTO postDetails, Principal principal) {
         Optional<PostDTO> post = postService.getPostById(id);
         if (post.isEmpty()) {
+            log.warn("post not found {}", id);
             return "post/not_found";
         }
         String authorId =post.get().getAuthor();
         if (!Objects.equals(principal.getName(), authorId) && !Objects.equals(principal.getName(), "admin")) {
+            log.warn("post bad request {}", id);
             return "post/bad_request";
         }
         postService.updatePost(id, postDetails);

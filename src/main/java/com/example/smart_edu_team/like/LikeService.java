@@ -37,6 +37,7 @@ public class LikeService {
         Optional<PostEntity> post = postRepository.findById(postId);
 
         if (user.isEmpty() || post.isEmpty()) {
+            log.warn("Illegal : user or post is Empty");
             throw new IllegalArgumentException("Invalid user or post");
         }
 
@@ -71,11 +72,13 @@ public class LikeService {
         Optional<CommentEntity> comment = commentRepository.findById(commentId);
 
         if (user.isEmpty() || comment.isEmpty()) {
+            log.warn("Illegal : user or post is Empty");
             throw new IllegalArgumentException("Invalid user or comment");
         }
 
         Optional<LikeEntity> existingLike = likeRepository.findByUserAndComment(user.get(), comment.get());
         if (existingLike.isPresent()) {
+            log.info("like canceled {}", user.get().getUsername());
             likeRepository.delete(existingLike.get());
             return false; // 좋아요 취소
         } else {
@@ -83,6 +86,7 @@ public class LikeService {
                     .user(user.get())
                     .comment(comment.get())
                     .build();
+            log.info("liked from {}", user.get().getUsername());
             likeRepository.save(newLike);
             return true; // 좋아요 추가
         }

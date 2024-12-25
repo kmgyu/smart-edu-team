@@ -57,6 +57,7 @@ public class AdminUserController implements UserController {
             model.addAttribute("user", user.get());
             return "user/details";
         }
+        log.warn("user not found {}", username);
         return "user/not_found";
     }
 
@@ -67,6 +68,7 @@ public class AdminUserController implements UserController {
             model.addAttribute("user", user.get());
             return "user/edit";
         }
+        log.warn("user not found {}", username);
         return "user/not_found";
     }
 

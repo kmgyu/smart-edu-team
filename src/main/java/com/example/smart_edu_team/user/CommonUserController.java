@@ -45,6 +45,7 @@ public class CommonUserController implements UserController {
     public String signup(@ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult) {
         if (userService.findByUsername(userDTO.getUsername()).isPresent()) {
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+            log.warn("signup failed because of username compare {}", userDTO.getUsername());
             return "user/signup";
         }
         userService.createUser(userDTO);
@@ -65,6 +66,7 @@ public class CommonUserController implements UserController {
             model.addAttribute("user", user.get());
             return "user/edit";
         }
+        log.warn("user not found {}", username);
         return "user/not_found";
     }
 
@@ -73,9 +75,9 @@ public class CommonUserController implements UserController {
         if ( Objects.equals(principal.getName(), username)) {
             userService.updateUser(username, userDetails);
             return "redirect:/post/index";
-        } else {
-            return "user/not_found";
         }
+        log.warn("user not found {}", username);
+        return "user/not_found";
     }
 
     @Override
@@ -83,8 +85,8 @@ public class CommonUserController implements UserController {
         if ( Objects.equals(principal.getName(), username)) {
             userService.deleteUser(username);
             return "redirect:/post/index";
-        } else {
-            return "user/not_found";
         }
+        log.warn("user not found {}", username);
+        return "user/not_found";
     }
 }
