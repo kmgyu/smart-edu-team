@@ -49,7 +49,7 @@ public class CommentService {
                     .filter(comment -> parent.getId().equals(comment.getParentCommentId()))
                     .map(CommentMapper::toDTO)
                     .collect(Collectors.toList());
-            parent.setReplies(replies); // CommentDTO에 replies 필드 추가 필요
+            parent.setReplies(replies);
         });
 
         return parentComments;

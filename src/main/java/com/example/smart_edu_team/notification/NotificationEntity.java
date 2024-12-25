@@ -24,9 +24,9 @@ public class NotificationEntity {
     @Column(nullable = false)
     private String message;
 
-    @Column(nullable = false)
+    @Column(name = "is_read", nullable = false)
     private boolean isRead = false;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_time", nullable = false, updatable = false)
     private LocalDateTime createdTime = LocalDateTime.now();
 }

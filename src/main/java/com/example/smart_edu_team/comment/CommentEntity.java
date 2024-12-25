@@ -31,6 +31,6 @@ public class CommentEntity {
     private LocalDateTime edited_time;
     @ManyToOne
     private PostEntity post;
-    @Column(nullable = true)
+    @Column(name="parent_comment_id", nullable = true)
     private Long parentCommentId; // 부모 댓글 ID (최상위 댓글은 null)
 }
