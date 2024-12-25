@@ -1,5 +1,6 @@
 package com.example.smart_edu_team.comment;
 
+import com.example.smart_edu_team.notification.NotificationService;
 import com.example.smart_edu_team.post.PostDTO;
 import com.example.smart_edu_team.post.PostEntity;
 import com.example.smart_edu_team.post.PostRepository;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final NotificationService notificationService;
 
     /**
      * 게시글 ID를 기준으로 모든 댓글을 가져옵니다. 댓글 하나만 가져오지 않는 것에 주의하십시오.
@@ -88,6 +90,10 @@ public class CommentService {
                     .build();
             commentEntity = Optional.of(comment);
             commentRepository.save(comment);
+            notificationService.createNotification(
+                    postEntity.get().getAuthor(),
+                    String.format("%s님이 게시글 '%s'에 댓글을 작성했습니다.", author, postEntity.get().getTitle())
+            );
             return Optional.of(commentDTO);
         }
         return Optional.empty();

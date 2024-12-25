@@ -2,6 +2,7 @@ package com.example.smart_edu_team.like;
 
 import com.example.smart_edu_team.comment.CommentEntity;
 import com.example.smart_edu_team.comment.CommentRepository;
+import com.example.smart_edu_team.notification.NotificationService;
 import com.example.smart_edu_team.post.PostEntity;
 import com.example.smart_edu_team.post.PostRepository;
 import com.example.smart_edu_team.user.UserEntity;
@@ -18,6 +19,7 @@ public class LikeService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final NotificationService notificationService;
 
     public boolean toggleLikeOnPost(String username, Long postId) {
         Optional<UserEntity> user = userRepository.findById(username);
@@ -37,6 +39,10 @@ public class LikeService {
                     .post(post.get())
                     .build();
             likeRepository.save(newLike);
+            notificationService.createNotification(
+                    post.get().getAuthor(),
+                    String.format("%s님이 게시글 '%s'에 좋아요를 눌렀습니다.", username, post.get().getTitle())
+            );
             return true; // 좋아요 추가
         }
     }
