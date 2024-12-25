@@ -19,7 +19,7 @@
         </form>
 
         <div id="post-like-count" th:data-post-id="${post.id}">
-            <p>Likes: <span th:utext="@{/likes/like-count/${post.id}}">Loading...</span></p>
+            <p>Likes: <span th:id="'like-post-' + ${post.id}">Loading...</span></p>
             <form th:action="@{/likes/toggle-posts/{postId}(postId=${post.id})}" method="post" style="display:inline;">
                 <button type="submit" class="btn btn-primary btn-sm">Like</button>
             </form>
@@ -35,7 +35,7 @@
                     <p><strong>작성 시간:</strong> <span th:text="${#temporals.format(comment.posted_time, 'yyyy-MM-dd HH:mm')}"></span></p>
 
                     <div id="comment-like-count" th:data-comment-id="${comment.id}">
-                        <p>Likes: <span th:utext="@{/likes/like-count/${comment.id}}">Loading...</span></p>
+                        <p>Likes: <span th:id="'like-comment-' + ${comment.id}">Loading...</span></p>
                         <form th:action="@{/likes/toggle-comments/{commentId}(commentId=${comment.id})}" method="post" style="display:inline;">
                             <button type="submit" class="btn btn-primary btn-sm">Like</button>
                         </form>

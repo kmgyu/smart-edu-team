@@ -35,3 +35,28 @@ function fetchNotifications() {
         .catch(error => console.error('Error fetching notifications:', error));
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    // 모든 댓글의 좋아요 수를 가져와 업데이트
+    document.querySelectorAll('[id^="like-post-"]').forEach(function (span) {
+        const postId = span.id.split('-')[2]; // Extract comment ID from the ID attribute
+        fetch(`/likes/like-post/${postId}`)
+            .then(response => response.text())
+            .then(likeCount => {
+                span.textContent = likeCount;
+            })
+            .catch(error => console.error("Error fetching like count:", error));
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    // 모든 댓글의 좋아요 수를 가져와 업데이트
+    document.querySelectorAll('[id^="like-comment-"]').forEach(function (span) {
+        const commentId = span.id.split('-')[2]; // Extract comment ID from the ID attribute
+        fetch(`/likes/like-comment/${commentId}`)
+            .then(response => response.text())
+            .then(likeCount => {
+                span.textContent = likeCount;
+            })
+            .catch(error => console.error("Error fetching like count:", error));
+    });
+});

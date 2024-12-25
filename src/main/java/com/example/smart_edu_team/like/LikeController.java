@@ -44,7 +44,7 @@ public class LikeController {
      * @param postId 조회할 게시글 id
      * @return 좋아요 횟수를 포함한 ResponseEntity 객체
      */
-    @GetMapping("/like-count/{postId}")
+    @GetMapping("/like-post/{postId}")
     public ResponseEntity<Long> getPostLikeCount(@PathVariable Long postId) {
         Long likeCount = likeService.getPostLikeCount(postId);
         return ResponseEntity.ok(likeCount);
@@ -55,7 +55,7 @@ public class LikeController {
      * @param commentId 조회할 댓글 id
      * @return 댓글 횟수를 포함한 ResponseEntity 객체
      */
-    @GetMapping("/like-count/{commentId}")
+    @GetMapping("/like-comment/{commentId}")
     public ResponseEntity<Long> getCommentLikeCount(@PathVariable Long commentId) {
         Long likeCount = likeService.getCommentLikeCount(commentId);
         return ResponseEntity.ok(likeCount);
