@@ -22,7 +22,20 @@ function cancelEdit(button, event) {
 
 function toggleLikePost(button) {
     const postId = button.getAttribute("data-id");
-    fetch(`/likes/posts/${postId}`, {
+    fetch(`/likes/toggle-posts/${postId}`, {
+        method: "POST",
+    })
+        .then(response => response.text())
+        .then(result => {
+            button.textContent = result === "liked" ? "Unlike" : "Like";
+        })
+        .catch(error => console.error("Error:", error));
+}
+
+function toggleLikeComment(button) {
+    const commentId = button.getAttribute("data-id");
+
+    fetch(`/likes/toggle-comments/${commentId}`, {
         method: "POST",
     })
         .then(response => response.text())

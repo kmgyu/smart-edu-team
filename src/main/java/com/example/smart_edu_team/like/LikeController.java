@@ -20,7 +20,7 @@ public class LikeController {
      * @param principal 현재 로그인한 사용자의 정보를 제공하는 Principal 객체
      * @return "liked" 또는 "unliked" 문자열을 포함한 ResponseEntity 객체
      */
-    @PostMapping("/posts/{postId}")
+    @PostMapping("/toggle-posts/{postId}")
     public ResponseEntity<String> toggleLikeOnPost(@PathVariable Long postId, Principal principal) {
         boolean isLiked = likeService.toggleLikeOnPost(principal.getName(), postId);
         return ResponseEntity.ok(isLiked ? "liked" : "unliked");
@@ -33,9 +33,31 @@ public class LikeController {
      * @param principal 현재 로그인한 사용자의 정보를 제공하는 Principal 객체
      * @return "liked" 또는 "unliked" 문자열을 포함한 ResponseEntity 객체
      */
-    @PostMapping("/comments/{commentId}")
+    @PostMapping("/toggle-comments/{commentId}")
     public ResponseEntity<String> toggleLikeOnComment(@PathVariable Long commentId, Principal principal) {
         boolean isLiked = likeService.toggleLikeOnComment(principal.getName(), commentId);
         return ResponseEntity.ok(isLiked ? "liked" : "unliked");
+    }
+
+    /**
+     * 게시글 좋아요를 조회합니다.
+     * @param postId 조회할 게시글 id
+     * @return 좋아요 횟수를 포함한 ResponseEntity 객체
+     */
+    @GetMapping("/like-count/{postId}")
+    public ResponseEntity<Long> getPostLikeCount(@PathVariable Long postId) {
+        Long likeCount = likeService.getPostLikeCount(postId);
+        return ResponseEntity.ok(likeCount);
+    }
+
+    /**
+     * 댓글 좋아요를 조회합니다.
+     * @param commentId 조회할 댓글 id
+     * @return 댓글 횟수를 포함한 ResponseEntity 객체
+     */
+    @GetMapping("/like-count/{commentId}")
+    public ResponseEntity<Long> getCommentLikeCount(@PathVariable Long commentId) {
+        Long likeCount = likeService.getCommentLikeCount(commentId);
+        return ResponseEntity.ok(likeCount);
     }
 }

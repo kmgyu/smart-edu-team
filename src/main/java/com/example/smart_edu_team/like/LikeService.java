@@ -85,4 +85,22 @@ public class LikeService {
             return true; // 좋아요 추가
         }
     }
+
+    /**
+     * 게시글에 대한 좋아요를 셉니다.
+     * @param postId 게시글 아이디
+     * @return 게시글 좋아요 수
+     */
+    public Long getPostLikeCount(Long postId) {
+        return likeRepository.countByPostId(postId);
+    }
+
+    /**
+     * 댓글에 대한 좋아요를 셉니다.
+     * @param commentId 댓글 아이디
+     * @return 댓글 좋아요 수
+     */
+    public Long getCommentLikeCount(Long commentId) {
+        return likeRepository.countByCommentId(commentId);
+    }
 }
