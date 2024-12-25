@@ -21,6 +21,15 @@ public class LikeService {
     private final CommentRepository commentRepository;
     private final NotificationService notificationService;
 
+    /**
+     * 게시글에 대해 좋아요를 토글합니다.
+     * 사용자가 이미 좋아요를 누른 경우 좋아요를 취소하고, 그렇지 않은 경우 좋아요를 추가합니다.
+     * 좋아요를 추가할 경우 게시글 작성자에게 알림을 보냅니다.
+     *
+     * @param username 좋아요를 누르는 사용자의 아이디
+     * @param postId 좋아요를 누를 게시글의 ID
+     * @return true(좋아요 추가), false(좋아요 취소)
+     */
     public boolean toggleLikeOnPost(String username, Long postId) {
         Optional<UserEntity> user = userRepository.findById(username);
         Optional<PostEntity> post = postRepository.findById(postId);
@@ -47,6 +56,14 @@ public class LikeService {
         }
     }
 
+    /**
+     * 댓글에 대해 좋아요를 토글합니다.
+     * 사용자가 이미 좋아요를 누른 경우 좋아요를 취소하고, 그렇지 않은 경우 좋아요를 추가합니다.
+     *
+     * @param username 좋아요를 누르는 사용자의 아이디
+     * @param commentId 좋아요를 누를 댓글의 ID
+     * @return true(좋아요 추가), false(좋아요 취소)
+     */
     public boolean toggleLikeOnComment(String username, Long commentId) {
         Optional<UserEntity> user = userRepository.findById(username);
         Optional<CommentEntity> comment = commentRepository.findById(commentId);
