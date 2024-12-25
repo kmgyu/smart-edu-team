@@ -1,6 +1,8 @@
 com.example.smart_edu_team
 com.example.smart_edu_team.comment
 com.example.smart_edu_team.config
+com.example.smart_edu_team.like
+com.example.smart_edu_team.notification
 com.example.smart_edu_team.post
 com.example.smart_edu_team.user
 com.example.smart_edu_team.user.infrastructure
