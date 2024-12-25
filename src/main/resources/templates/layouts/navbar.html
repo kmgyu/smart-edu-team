@@ -18,7 +18,7 @@
                 <li class="nav-item">
                     <a class="nav-link"
                        sec:authorize="isAuthenticated()"
-                       th:href="@{'/users/' + ${#authentication.principal.username}}"
+                       th:href="@{'/info/users/' + ${#authentication.principal.username}}"
                        th:text="${#authentication.principal.username}"></a>
                 </li>
             </ul>

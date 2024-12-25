@@ -28,5 +28,6 @@ public class NotificationEntity {
     private boolean isRead = false;
 
     @Column(name = "created_time", nullable = false, updatable = false)
+    @Builder.Default
     private LocalDateTime createdTime = LocalDateTime.now();
 }

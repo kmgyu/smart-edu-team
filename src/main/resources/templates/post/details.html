@@ -34,7 +34,28 @@
                     <p><strong>작성자:</strong> <span th:text="${comment.author}">작성자</span></p>
                     <p><strong>작성 시간:</strong> <span th:text="${#temporals.format(comment.posted_time, 'yyyy-MM-dd HH:mm')}"></span></p>
 
+                    <!-- 댓글 수정 -->
+                    <div sec:authorize="isAuthenticated()" th:if="${comment.author == #authentication.getPrincipal().getUsername() or #authentication.getPrincipal().getUsername() == 'admin'}">
+                        <!-- 인라인 편집 폼 -->
+                        <form th:action="@{/comments/{postId}/edit(postId=${post.id})}" method="post" style="display: none;">
+                            <input type="hidden" name="id" th:value="${comment.id}" />
+                            <div class="form-group">
+                                <textarea name="content" class="form-control" rows="3" th:text="${comment.content}" required></textarea>
+                                <button type="submit" class="btn btn-primary btn-sm">저장</button>
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit(this, event)">취소</button>
+                            </div>
+                        </form>
+                        <!-- 수정 링크 -->
+                        <a href="#" class="btn btn-primary btn-sm" onclick="toggleEditForm(this)" >수정</a>
+                        <!-- 삭제 폼 -->
+                        <form th:action="@{/comments/{postId}/delete/{id}(id=${comment.id}, postId=${post.id})}" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">삭제</button>
+                        </form>
+                    </div>
+                    <br>
+
                     <div id="comment-like-count" th:data-comment-id="${comment.id}">
+                        <!-- 좋아요 -->
                         <p>Likes: <span th:id="'like-comment-' + ${comment.id}">Loading...</span></p>
                         <form th:action="@{/likes/toggle-comments/{commentId}(commentId=${comment.id})}" method="post" style="display:inline;">
                             <button type="submit" class="btn btn-primary btn-sm">Like</button>

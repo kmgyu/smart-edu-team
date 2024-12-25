@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -73,7 +74,11 @@ public class PostController {
      * @return 게시글 목록으로 리다이렉트합니다.
      */
     @PostMapping("/create")
-    public String createPost(@ModelAttribute PostDTO postDTO, Principal principal) {
+    public String createPost(@ModelAttribute("post") PostDTO postDTO, Principal principal, BindingResult bindingResult) {
+        if (postDTO.getTitle().isBlank() || postDTO.getContent().isBlank()) {
+            bindingResult.reject("postFailed", "제목과 내용은 필수항목입니다.");
+            return "post/create";
+        }
         postService.createPost(postDTO, principal.getName());
         return "redirect:/posts/index";
     }

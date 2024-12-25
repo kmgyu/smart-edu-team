@@ -49,7 +49,7 @@ public interface UserController {
      * @param principal 로그인 정보
      * @return 유저 정보 템플릿을 리턴합니다. 만약 유저가 없을 시, 유저 notfound 템플릿을 리턴합니다. 권한이 없을 경우(또는 아이디가 다를 경우)도 동일합니다.
      */
-    @GetMapping("/{username}")
+    @GetMapping("/info/{username}")
     public String getUserByUsername(@PathVariable String username, Model model, Principal principal);
 
     /**
