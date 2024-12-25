@@ -1,7 +1,32 @@
 
 <div layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
-    <div class="col-md-6">
+    <div th:if="${#authentication.getPrincipal().getUsername() == 'admin'}">
+        <div class="col-md-6">
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h3>Edit User</h3>
+                </div>
+                <div class="card-body">
+                    <form
+                            th:action="@{/admins/edit/{username}(username=${user.getUsername()})}" th:object="${user}" method="post">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" th:field="*{username}" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" th:field="*{password}" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6"  th:if="${user.username == #authentication.getPrincipal().getUsername()}">
             <div class="card mt-5">
                 <div class="card-header">
                     <h3>Edit User</h3>

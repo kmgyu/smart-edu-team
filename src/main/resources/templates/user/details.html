@@ -1,7 +1,7 @@
 <div layout:decorate="~{layout}">
 <div layout:fragment="content" class="container">
     <h1>User Details</h1>
-    <div class="card">
+    <div class="card"  th:if="${user.username == #authentication.getPrincipal().getUsername() || #authentication.getPrincipal().getUsername() == 'admin'}">
         <div class="card-body">
             <p>Username: <span th:text="${user.getUsername()}">Username</span></p>
             <p>Email: <span th:text="${user.getEmail()}">Username</span></p>

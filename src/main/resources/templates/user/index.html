@@ -8,13 +8,13 @@
             <th>Actions</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody th:if="${#authentication.getPrincipal().getUsername() == 'admin'}">
         <tr th:each="user : ${users}">
             <td th:text="${user.username}">Username</td>
             <td>
-                <a th:href="@{/users/info/{username}(username=${user.username})}" class="btn btn-info btn-sm">View</a>
-                <a th:href="@{/users/edit/{username}(username=${user.username})}" class="btn btn-warning btn-sm">Edit</a>
-                <form th:action="@{/users/delete/{username}(username=${user.username})}" method="delete" style="display:inline;">
+                <a th:href="@{/admins/info/{username}(username=${user.username})}" class="btn btn-info btn-sm">View</a>
+                <a th:href="@{/admins/edit/{username}(username=${user.username})}" class="btn btn-warning btn-sm">Edit</a>
+                <form th:action="@{/admins/delete/{username}(username=${user.username})}" method="delete" style="display:inline;">
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
             </td>
