@@ -5,6 +5,7 @@ import com.example.smart_edu_team.post.PostDTO;
 import com.example.smart_edu_team.post.PostEntity;
 import com.example.smart_edu_team.post.PostRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
  * 댓글에 대한 CRUD를 제공하는 클래스입니다.
  * 댓글또한 Unique한 ID를 가지고 있기 때문에 Create와 Read 에서만 Post의 ID가 요구됩니다.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CommentService {

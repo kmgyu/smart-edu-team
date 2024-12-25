@@ -1,6 +1,7 @@
 package com.example.smart_edu_team.user;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -34,6 +36,7 @@ public class UserService {
     public Optional<UserDTO> findByUsername(String username) {
         Optional<UserEntity> userEntity = userRepository.findById(username);
         Optional<UserDTO> userDTO = Optional.empty();
+        log.info("Find By Username for user: {}", username);
         if (userEntity.isPresent()) {
             userDTO = Optional.ofNullable(UserMapper.toDTO(userEntity.get()));
         }

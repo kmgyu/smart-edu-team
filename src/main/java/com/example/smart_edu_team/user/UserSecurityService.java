@@ -2,6 +2,7 @@ package com.example.smart_edu_team.user;
 
 import com.example.smart_edu_team.config.UserRole;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserSecurityService implements UserDetailsService {
 
     private final UserRepository userRepository;

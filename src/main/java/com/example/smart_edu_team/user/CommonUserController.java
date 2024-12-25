@@ -2,6 +2,7 @@ package com.example.smart_edu_team.user;
 
 import com.example.smart_edu_team.user.infrastructure.UserController;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import java.util.Optional;
 /**
  * 일반 사용자 컨트롤러입니다.
  */
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/users")

@@ -3,6 +3,7 @@ package com.example.smart_edu_team.post;
 import com.example.smart_edu_team.comment.CommentDTO;
 import com.example.smart_edu_team.comment.CommentService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import java.util.Optional;
  * 게시글에 대한 컨트롤러입니다.
  * 생성, 수정, 삭제 모두 Post 메소드임에 주의하십시오.
  */
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/posts")

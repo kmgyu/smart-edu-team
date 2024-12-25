@@ -1,6 +1,7 @@
 package com.example.smart_edu_team.post;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 /**
  * 게시글의 서비스 클래스입니다.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PostService {

@@ -1,6 +1,7 @@
 package com.example.smart_edu_team.comment;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.Optional;
  * 댓글에 대한 컨트롤러입니다.
  * 생성, 수정, 삭제 모두 Post 메소드임에 주의하십시오.
  */
+@Slf4j
 @RequestMapping("/comments")
 @Controller
 @RequiredArgsConstructor

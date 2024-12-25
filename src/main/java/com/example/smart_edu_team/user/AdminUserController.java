@@ -2,6 +2,7 @@ package com.example.smart_edu_team.user;
 
 import com.example.smart_edu_team.user.infrastructure.UserController;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import java.util.Optional;
  * 관리자용 컨트롤러입니다.
  * url이 일반 사용자와 달라 필터링하기 수월합니다.
  */
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admins")
